@@ -3,11 +3,146 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyBOT</title>
+  <title>MyBOT Chat</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
 </head>
 <body>
-  <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" width="100">
-  <p><%=user.username%>#<%=user.discriminator%></p>
+  <div class="divMain">
+  <div class="rowMain">
+   <div class="row">
+    <div class="rowContentOne">
+     <div class="col rowIcons">
+      <div class="iconsContent">
+       <div class="header-iconsContent">
+        <a href="../index.html">
+         <img src="https://cdn.discordapp.com/attachments/776566660315349012/779467014355419146/aqq.png" alt="Discord icon"
+          class="circle">
+        </a>
+       </div>
+       <div class="separador-iconsContent"></div>
+       <div class="body-iconsContent ">
+        <a href="./index.html">
+         <div class="select-iconContent">
+         </div>
+         <img src="https://cdn.discordapp.com/icons/312846399731662850/a_335ba326b00292321f8bb92d01c01d9e.gif?size=4096" alt="MyBOT TEAM">
+        </a>
+       </div>
+      
+      </div>
+     </div>
+     <div class="col rowOptions">
+
+      <div class="optiontsContent">
+       <div class="header-optionsContent">
+        <img src="https://cdn.discordapp.com/attachments/359425464885837827/779470653845012540/crater-otaku.png" width="15">
+        <span class="title_server"> MyBOT Team </span> <i class="material-icons i-arrow-server">keyboard_arrow_down</i>
+       </div>
+       <div class="body-optionsContent">
+        <div class="category-body-optionsContent">
+         <div class="nameCategory-body-optionsContent">
+          <div class="category-name">
+           <i class="tiny material-icons">keyboard_arrow_down</i>
+           <span>📂 COMUNIDAD</span>
+          </div>
+         </div>
+        </div>
+        <div class="channels-body-optionsContent">
+         <div class="nameChannel-body-optionsContent info">
+          # general-offtopic
+         </div>
+        </div>
+        
+
+       </div>
+       <div class="profile-body-optionContent">
+          <div class="profile-content">
+            <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="Avatar <%=user.username%>"  width="39" height="39" class="circle">
+            <span class="profile-username-footer"><%=user.username%><br><span class="profile-discrim-footer">#<%=user.discriminator%></span></span>
+            <span class="profile-footer-icons">
+              <i class="material-icons">mic</i>
+              <i class="material-icons">headset</i>
+              <i class="material-icons">settings</i>
+            </span>
+            
+          </div>
+        </div>
+      </div>
+     </div>
+    </div>
+    <div class="rowContentTwo">
+     <div class="col rowAreatext" style="width: 100%;">
+      <div class="areatextContent">
+       <div class="header-areatextContent">
+        <span id="areatextTitle"></span>
+       </div>
+       <div class="body-areatextContent">
+        <div class="style-body-areatextContent">
+         <div class="avatar-style-body-areatextContent">
+          <div class="nick-avatar-style-body-areatextContent">
+           <span class="colorNickname"><%=user.username%>
+            <span style="font-size: .7rem;color: #5f5e5e;margin-left: 5px;" id="FechaNickName"></span>
+           </span>
+
+          </div>
+          <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" width="45" class="circle" alt="">
+
+
+         </div>
+         <div class="row" style="padding-bottom: 60px;">
+
+          <div class="content-body-areatextContent" style="margin-left: 60px; margin-top: -15px;">
+
+           <div class="col s12" id="informacion">
+
+            <span>TITULO</span>
+
+            <p> SOLO FALTA DISEÑAS ESTA SECCION DE LA CAJA DE MENSAJES.
+             <a href="https://portalmybot.com/" target="_blank">Enlaces</a>
+            </p>
+
+           </div>
+
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="rowContentThree">
+     <div class="chatArea-body">
+      <div class="msg-chatArea-body">
+       No tienes permiso para enviar mensajes en este canal
+      </div>
+     </div>
+    </div>
+    <div class="rowButtonMobile">
+     <div class="body-button">
+      <div class="btn btn-mobile">Click</div>
+     </div>
+    </div>
+    <div class="rowModalImage">
+     <div class="body-modal">
+      <div>
+       <img src="" alt="" width="1000" height="600">
+      </div>
+
+      <div class="right">
+       <p>cerrar</p>
+      </div>
+     </div>
+
+    </div>
+   </div>
+  </div>
+
+ </div>
 
   <form method="POST" id="enviar_MSG" action="/send">
     <input type="text" name="msg_send" id="msg_input" required>
@@ -15,6 +150,11 @@
       Enviar
     </button>
   </form>
+
+   <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      
   <script src="../js/script.js"></script>
+  
 </body>
 </html>
