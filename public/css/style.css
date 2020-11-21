@@ -13,12 +13,12 @@ body {
   display: flex;
   max-height: 1200px;
   min-height: 1200px;
-  max-width: 320px;
+  max-width: 310px;
 
 }
 
 .rowMain .rowContentTwo {
-  margin-left: 320px;
+  margin-left: 300px;
 
 
 }
@@ -119,7 +119,7 @@ body {
 
 .rowMain .rowOptions {
   background-color: #2f3136;
-  width: 240px;
+  width: 241px;
   contain: layout;
   display: block;
   flex-direction: column;
@@ -301,9 +301,27 @@ body {
   width: 100%;
   background-color: #36393e;
   z-index: 2;
+  padding: 0 18px;
 
 }
-
+.rowMain .rowAreatext .areatextContent .header-areatextContent #areatextTitle {
+  display: flex;
+}
+.rowMain .rowAreatext .areatextContent .header-areatextContent .areatextTitleDesc {
+  border-left: .01px solid;
+  margin-left: 15px;
+  padding: 0 15px;
+  font-size: 13px;
+  color: #979a9d;
+}
+.rowMain .rowAreatext .areatextContent .header-areatextContent .areatextTitleIcon {
+  margin: 0 auto;
+  letter-spacing: 10px;
+  
+}
+.rowMain .rowAreatext .areatextContent .header-areatextContent .areatextTitleIcon:hover {
+  cursor: pointer;
+}
 .rowMain .rowAreatext .areatextContent .body-areatextContent h5 {
   color: #ffffff;
   font-weight: 600;
@@ -414,17 +432,30 @@ body {
   position: fixed;
   background-color: #36393e;
   width: 100%;
-  top: 90%;
+  top: 88%;
   left: 330px;
   height: 120px;
 }
 
 .rowMain .rowContentThree .chatArea-body {
   padding: 20px 0px;
-  border-top: 1px solid #3e4148;
-
+  width: 71%;
+}
+.rowMain .rowContentThree .send_discord{
+  background-color: #40444b;
+  padding: 0 20px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+}
+input[type=text]::placeholder {
+  color:#6d747d;
 }
 
+input[type=text]:not(.browser-default):focus:not([readonly]) {
+  box-shadow: none;
+  border:none;
+}
 .rowMain .rowContentThree .msg-chatArea-body {
   padding: 10px;
   background-color: #3e4148;
@@ -464,7 +495,26 @@ body {
   z-index: 4;
   display: none;
 }
-
+.collection {
+  border: none;
+}
+.collection .collection-item {
+  background-color: transparent;
+  border-bottom: none;
+}
+.collection .collection-item.avatar .title {
+  font-size: 16px;
+  color: #d92387;
+  font-weight: 500;
+}
+.collection .collection-item.avatar p {
+  color:#DCDDDE;
+}
+.collection .collection-item.avatar .datep {
+ font-size: 11px;
+ color: #72767d;
+ margin-left: 5px;
+}
 /*modal imagenes*/
 
 .rowMain .rowModalImage {
