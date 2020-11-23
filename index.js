@@ -3,12 +3,19 @@ const app = express();
 const passport = require('passport');
 const { Strategy } = require('passport-discord');
 require('dotenv').config()
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
 
 const bodyparser = require('body-parser');
 const session = require('express-session');
 
 const path = require('path');
 const fs = require('fs');
+
+const Discord = require('discord.js');
+const client = new Discord.Client({allowedMentions: {parse:[]}});
+
+
 
 passport.serializeUser((user, done) => {
   done(null, user)
@@ -55,8 +62,37 @@ app
   res.send('Error 404!')
 })
 
+client.on('ready', () => {
+  console.log('Estoy Listo');
+})
+/* Events Socket io */
 
-app.listen('3030', function () {
+ io.on('connection', socket => {
+   
+ })
+
+
+client.on('message', async message => {
+  
+  if (message.channel.id !== '359424930686828544') return;
+  if (message.author.bot) return;
+  let content = message.cleanContent;
+  let dataMSG = {
+    content: message.cleanContent,
+    author: message.member.displayName,
+    avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),
+    id: message.author.id,
+    date: message.createdAt.toLocaleDateString('es-ES'),
+    colorName: message.member.displayHexColor
+  }
+  io.emit('new message', dataMSG)
+  
+
+
+})
+
+server.listen('3030', function () {
+  client.login(process.env.TOKEN_BOT)
   console.log('Listo, en el puerto 3030');
 })
 

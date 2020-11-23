@@ -10,7 +10,40 @@
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <script src="./socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      socket.on("new message", (data) => {
+        msgTemplate(data)
+        
+      });
+      let idSave = '';
 
+      function msgTemplate(data) {
+        let boxMessage = document.querySelector('#boxChat');
+        
+        let template
+        if(idSave === data.id) {
+          template = ` <p style="padding-left: 72px; margin: 0;">${data.content}</p>`;
+        } else {
+          idSave = data.id
+          template = `
+          <li class="collection-item avatar">
+            <img src="${data.avatarURL}" alt="" class="circle">
+            <span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span>
+            <p>${data.content}</p>
+              
+          </li>
+        `;
+        }
+        
+
+        boxMessage.innerHTML += template;
+      }
+      
+
+
+    </script>
 </head>
 <body>
   <div class="divMain">
@@ -88,88 +121,8 @@
        </div>
        <div class="body-areatextContent">
         <section class="">
-          <ul class="collection">
+          <ul class="collection" id="boxChat">
 
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-            <li class="collection-item avatar">
-              <img src="https://cdn.discordapp.com/avatars/753381968418308167/2171d6bd8a3d36168e6d8d1700df230b.webp?size=4096" alt="" class="circle">
-              <span class="title">Verdesito <span class="datep">21/11/2020</span></span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis veniam veritatis sunt assumenda? Sunt nihil cumque illo quisquam nam! Aliquid officiis aliquam reprehenderit, ullam cumque iusto ipsa inventore dolor impedit! </p>
-             
-            </li>
-          
-           
           </ul>
         </section>
        </div>
