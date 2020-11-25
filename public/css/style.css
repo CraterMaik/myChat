@@ -441,7 +441,7 @@ body {
   padding: 20px 0px;
   width: 71%;
 }
-.rowMain .rowContentThree .send_discord{
+.rowMain .rowContentThree .inputMSG {
   background-color: #40444b;
   padding: 0 20px;
   border: none;
@@ -497,13 +497,25 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
 }
 .collection {
   border: none;
-  margin: .5rem 0 3.5rem 0;
+  margin: .5rem 0 5.5rem 0;
 }
 
 .collection .collection-item {
   background-color: transparent;
   border-bottom: none;
+  padding: 18px 0 0;
 }
+.collection .collection-item.avatar {
+  min-height: 60px;
+}
+.collection .collection-item.item-chat {
+  padding-left: 72px;
+  padding-top: 0;
+  color: #DCDDDE;
+  line-height: .8;
+
+}
+
 .collection .collection-item.avatar .title {
   font-size: 16px;
   color: #d92387;
@@ -517,9 +529,7 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
  color: #72767d;
  margin-left: 5px;
 }
-.collection .collection-item.avatar {
-  min-height: 70px; 
-}
+
 /*modal imagenes*/
 
 .rowMain .rowModalImage {

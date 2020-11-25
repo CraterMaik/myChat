@@ -15,7 +15,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const client = new Discord.Client({allowedMentions: {parse:[]}});
 
-
+const fetch = require('node-fetch')
 
 passport.serializeUser((user, done) => {
   done(null, user)
@@ -68,15 +68,39 @@ client.on('ready', () => {
 /* Events Socket io */
 
  io.on('connection', socket => {
-   
+   socket.on('add message', function (data) {
+     
+     const body = JSON.stringify({
+       allowed_mentions: {
+         parse: []
+       },
+       content: data.content,
+       username: data.username,
+       avatar_url: data.avatarURL
+     });
+
+     let URLWH = `https://discord.com/api/v8/webhooks/${process.env.ID_WH}/${process.env.TOKEN_WH}`
+
+     fetch(URLWH, {
+       method: 'POST',
+       body: body,
+       headers: {
+         'Content-Type': 'application/json'
+       }
+     });
+
+     socket.broadcast.emit('add message', {
+       content: data.content
+     })
+   })
  })
 
 
 client.on('message', async message => {
   
-  if (message.channel.id !== '359424930686828544') return;
+  if (message.channel.id !== '781263477443395585') return;
   if (message.author.bot) return;
-  let content = message.cleanContent;
+  
   let dataMSG = {
     content: message.cleanContent,
     author: message.member.displayName,
