@@ -498,8 +498,12 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
 .collection {
   border: none;
   margin: .5rem 0 5.5rem 0;
+  
 }
-
+.messages {
+  height: 95%;
+  overflow-y: auto;
+}
 .collection .collection-item {
   background-color: transparent;
   border-bottom: none;
