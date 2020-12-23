@@ -501,12 +501,11 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   
 }
 .messages {
-  height: 93%;
+  height: 94%;
   overflow-y: auto;
 }
 .d-emoji {
   width: 48px;
-  height: 48px;
 }
 .collection .collection-item {
   background-color: transparent;
