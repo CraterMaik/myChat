@@ -17,6 +17,8 @@ const client = new Discord.Client({allowedMentions: {parse:[]}});
 
 const fetch = require('node-fetch')
 
+const { parser, htmlOutput, toHTML } = require('discord-markdown');
+
 passport.serializeUser((user, done) => {
   done(null, user)
 })
@@ -102,7 +104,7 @@ client.on('message', async message => {
   if (message.author.bot) return;
   
   let dataMSG = {
-    content: message.cleanContent,
+    content: toHTML(message.cleanContent),
     author: message.member.displayName,
     avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),
     id: message.author.id,
