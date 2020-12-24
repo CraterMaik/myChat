@@ -526,6 +526,14 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   background-color: #7289da;
   cursor: pointer;
 }
+.img-content {
+  width: auto;
+  margin-top: 6px;
+  border-radius: 2px;
+  max-width: 400px;
+  display: block;
+  
+}
 
 .collection .collection-item {
   background-color: transparent;

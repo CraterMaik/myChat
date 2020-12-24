@@ -10,14 +10,12 @@ const bodyparser = require('body-parser');
 const session = require('express-session');
 
 const path = require('path');
-const fs = require('fs');
-
 const Discord = require('discord.js');
 const client = new Discord.Client({allowedMentions: {parse:[]}});
 
 const fetch = require('node-fetch')
 
-const { parser, htmlOutput, toHTML } = require('discord-markdown');
+const { toHTML } = require('discord-markdown');
 
 passport.serializeUser((user, done) => {
   done(null, user)
@@ -102,13 +100,9 @@ client.on('message', async message => {
   
   if (message.channel.id !== '781263477443395585') return;
   if (message.author.bot) return;
-  let contentMSG = message.content;
-  if(message.attachments.first()) {
-    let urlAttach = message.attachments.first().attachment;
-    contentMSG += `\n`+ urlAttach;
-  }
+  
   let dataMSG = {
-    content: toHTML(contentMSG, {
+    content: toHTML(message.content, {
       discordCallback: {
         user: node => {
           return '@' + message.guild.members.resolve(node.id).displayName;
@@ -117,16 +111,17 @@ client.on('message', async message => {
           return '#'+ message.guild.channels.resolve(node.id).name;
         },
         role: node => {
+          
           return '@'+ message.guild.roles.resolve(node.id).name;
         }
-      },
-      embed: true
+      }
     }),
     author: message.member.displayName,
     avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),
     id: message.author.id,
     date: message.createdAt.toLocaleDateString('es-ES'),
-    colorName: message.member.displayHexColor
+    colorName: message.member.displayHexColor,
+    attachmentURL: message.attachments.first() && message.attachments.first().height !== null ? message.attachments.first().attachment : null
   }
   io.emit('new message', dataMSG)
   

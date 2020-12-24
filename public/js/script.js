@@ -1,7 +1,3 @@
-/* function enviar() {
-  document.getElementById('enviar_MSG').submit();
-  
-} */
 
 $(function() {
   let $window = $(window);
@@ -85,13 +81,19 @@ $(function() {
   }
  
   function msgTemplate(data) {
-    let boxMessage = document.querySelector('#boxChat');
+    
 
+    if (data.attachmentURL) {
+      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${data.content}<img class="img-content" src=${data.attachmentURL} /></p>`)
+      $divUserTwo = $(`<p>${data.content}<img class="img-content" src=${data.attachmentURL} /></p>`)
 
-    $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${data.content}</p>`)
+    } else {
+      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${data.content} </p>`)
+      $divUserTwo = $(`<p>${data.content}</p>`)
 
-    $divUserTwo = $(`<p>${data.content}</p>`)
-
+    }
+    
+    
     $imgAvatar = $(`<img src="${data.avatarURL}" alt="${data.author}-avatar" class="circle">`);
 
     if (idSave === data.id) {
