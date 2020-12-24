@@ -438,7 +438,7 @@ body {
 }
 
 .rowMain .rowContentThree .chatArea-body {
-  padding: 20px 0px;
+  padding: 15px 0px;
   width: 71%;
 }
 .rowMain .rowContentThree .inputMSG {
@@ -607,11 +607,6 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   .rowMain .rowContentThree {
     left: 75px;
 
-  }
-
-  .rowMain .rowButtonMobile {
-    left: 85%;
-    display: inline;
   }
 
   .rowMain .rowAreatext .areatextContent .header-areatextContent-portal {

@@ -102,9 +102,13 @@ client.on('message', async message => {
   
   if (message.channel.id !== '781263477443395585') return;
   if (message.author.bot) return;
-
+  let contentMSG = message.content;
+  if(message.attachments.first()) {
+    let urlAttach = message.attachments.first().attachment;
+    contentMSG += `\n`+ urlAttach;
+  }
   let dataMSG = {
-    content: toHTML(message.content, {
+    content: toHTML(contentMSG, {
       discordCallback: {
         user: node => {
           return '@' + message.guild.members.resolve(node.id).displayName;
@@ -126,7 +130,6 @@ client.on('message', async message => {
   }
   io.emit('new message', dataMSG)
   
-
 })
 
 server.listen('3030', function () {
