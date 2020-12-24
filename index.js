@@ -18,7 +18,6 @@ const client = new Discord.Client({allowedMentions: {parse:[]}});
 const fetch = require('node-fetch')
 
 const { parser, htmlOutput, toHTML } = require('discord-markdown');
-const discord_users = {}
 
 passport.serializeUser((user, done) => {
   done(null, user)
@@ -127,7 +126,6 @@ client.on('message', async message => {
   }
   io.emit('new message', dataMSG)
   
-
 
 })
 
