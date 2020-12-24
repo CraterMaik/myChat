@@ -504,9 +504,29 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   height: 94%;
   overflow-y: auto;
 }
+/* Markdown Discord */
 .d-emoji {
   width: 48px;
 }
+.d-mention {
+  border-radius: 3px;
+  padding: 0 2px;
+  color: #7289da;
+  background: rgba(114,137,218,.1);
+  position: relative;
+}
+
+.d-user:hover {
+  color: #fff;
+  background-color: #7289da;
+  cursor: pointer;
+}
+.d-channel:hover {
+  color: #fff;
+  background-color: #7289da;
+  cursor: pointer;
+}
+
 .collection .collection-item {
   background-color: transparent;
   border-bottom: none;

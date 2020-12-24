@@ -18,6 +18,7 @@ const client = new Discord.Client({allowedMentions: {parse:[]}});
 const fetch = require('node-fetch')
 
 const { parser, htmlOutput, toHTML } = require('discord-markdown');
+const discord_users = {}
 
 passport.serializeUser((user, done) => {
   done(null, user)
@@ -102,9 +103,22 @@ client.on('message', async message => {
   
   if (message.channel.id !== '781263477443395585') return;
   if (message.author.bot) return;
-  
+
   let dataMSG = {
-    content: toHTML(message.cleanContent),
+    content: toHTML(message.content, {
+      discordCallback: {
+        user: node => {
+          return '@' + message.guild.members.resolve(node.id).displayName;
+        },
+        channel: node => {
+          return '#'+ message.guild.channels.resolve(node.id).name;
+        },
+        role: node => {
+          return '@'+ message.guild.roles.resolve(node.id).name;
+        }
+      },
+      embed: true
+    }),
     author: message.member.displayName,
     avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),
     id: message.author.id,
