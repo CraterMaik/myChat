@@ -55,6 +55,10 @@ app
 }))
 .use(passport.initialize())
 .use(passport.session())
+.use(function(req, res, next){
+  req.client = client;
+  next();
+})
 .use("/", require('./rutas/index'))
 .use("/perfil", require('./rutas/perfil'))
 
@@ -98,7 +102,7 @@ client.on('ready', () => {
 
 client.on('message', async message => {
   
-  if (message.channel.id !== '781263477443395585') return;
+  if (message.channel.id !== process.env.ID_CHANNEL) return;
   if (message.author.bot) return;
   
   let dataMSG = {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,17 +21,17 @@
      <div class="col rowIcons">
       <div class="iconsContent">
        <div class="header-iconsContent">
-        <a href="../index.html">
+        <a href="#">
          <img src="https://cdn.discordapp.com/attachments/776566660315349012/779467014355419146/aqq.png" alt="Discord icon"
           class="circle">
         </a>
        </div>
        <div class="separador-iconsContent"></div>
        <div class="body-iconsContent ">
-        <a href="./index.html">
+        <a href="#">
          <div class="select-iconContent">
          </div>
-         <img src="https://cdn.discordapp.com/icons/312846399731662850/a_335ba326b00292321f8bb92d01c01d9e.gif?size=4096" alt="MyBOT TEAM">
+         <img src="https://cdn.discordapp.com/icons/<%=channel.guild.id%>/<%=channel.guild.icon%>.png?size=128" alt="<%=channel.guild.name%>">
         </a>
        </div>
       
@@ -41,8 +41,7 @@
 
       <div class="optiontsContent">
        <div class="header-optionsContent">
-        <img src="https://cdn.discordapp.com/attachments/359425464885837827/779470653845012540/crater-otaku.png" width="15">
-        <span class="title_server"> MyBOT Team </span> <i class="material-icons i-arrow-server">keyboard_arrow_down</i>
+        <span class="title_server"> <%=channel.guild.name%> </span> <i class="material-icons i-arrow-server">keyboard_arrow_down</i>
        </div>
        <div class="body-optionsContent">
         <div class="category-body-optionsContent">
@@ -55,11 +54,10 @@
         </div>
         <div class="channels-body-optionsContent">
          <div class="nameChannel-body-optionsContent info">
-          # general-offtopic
+          # <%=channel.name%>
          </div>
         </div>
         
-
        </div>
        <div class="profile-body-optionContent">
           <div class="profile-content">
@@ -81,7 +79,11 @@
      <div class="col rowAreatext" style="width: 100%;">
       <div class="areatextContent">
        <div class="header-areatextContent">
-        <span id="areatextTitle"><img src="https://cdn.discordapp.com/emojis/770766735178989569.png" alt="channel ico" width="23" style="opacity: 0.7; margin: 0 10px 0 0;"> general-offtopic</span> <span class="areatextTitleDesc">Canal para hablar de todo. </span>
+        <span id="areatextTitle"><img src="https://cdn.discordapp.com/emojis/770766735178989569.png" alt="channel ico" width="23" style="opacity: 0.7; margin: 0 10px 0 0;"> <%=channel.name%></span> <span class="areatextTitleDesc">
+          <% if(channel.topic) {%>
+            <%=channel.topic%>
+          <% } %>
+        </span>
         <span class="areatextTitleIcon">
           <svg x="0" y="0" class="icon-22AiRD" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M18 9V14C18 15.657 19.344 17 21 17V18H3V17C4.656 17 6 15.657 6 14V9C6 5.686 8.686 3 12 3C15.314 3 18 5.686 18 9ZM11.9999 21C10.5239 21 9.24793 20.19 8.55493 19H15.4449C14.7519 20.19 13.4759 21 11.9999 21Z" style="color: #b9bbbe;"></path></svg>
           <img src="https://cdn.discordapp.com/emojis/658538492548218890.png" alt="pin ico" width="23">
@@ -101,7 +103,7 @@
     <div class="rowContentThree">
      <div class="chatArea-body">
 
-        <input autocomplete="off" class="inputMSG" type="text" id="msg_input" placeholder="Enviar mensaje a #general-offtopic" required>
+        <input autocomplete="off" class="inputMSG" type="text" id="msg_input" placeholder="Enviar mensaje a #<%=channel.name%>" required>
       
      </div>
     </div>
