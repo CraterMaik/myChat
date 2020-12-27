@@ -507,6 +507,11 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
 .d-emoji {
   width: 48px;
 }
+.d-emoji-text {
+  width: 22px;
+  position: absolute;
+  margin-left: 3px;
+}
 .d-mention {
   border-radius: 3px;
   padding: 0 2px;

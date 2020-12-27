@@ -104,25 +104,25 @@ client.on('message', async message => {
   
   if (message.channel.id !== process.env.ID_CHANNEL) return;
   if (message.author.bot) return;
-  
-  let emojiFind = emoji.replace(message.content, (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`)
+  let dataMDiscord = toHTML(message.content, {
+    discordCallback: {
+      user: node => {
+        return '@' + message.guild.members.resolve(node.id).displayName;
+      },
+      channel: node => {
+        return '#' + message.guild.channels.resolve(node.id).name;
+      },
+      role: node => {
+
+        return '@' + message.guild.roles.resolve(node.id).name;
+      }
+    },
+    escapeHTML: true
+  })
+  let emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`);
 
   let dataMSG = {
-    content: toHTML(emojiFind, {
-      discordCallback: {
-        user: node => {
-          return '@' + message.guild.members.resolve(node.id).displayName;
-        },
-        channel: node => {
-          return '#'+ message.guild.channels.resolve(node.id).name;
-        },
-        role: node => {
-          
-          return '@'+ message.guild.roles.resolve(node.id).name;
-        }
-      },
-      escapeHTML: false
-    }),
+    content: emojiFind,
     author: message.member.displayName,
     avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),
     id: message.author.id,

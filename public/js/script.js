@@ -91,14 +91,15 @@ $(function() {
   }
  
   function msgTemplate(data) {
-    
+    let dataContent = data.content;
     if (data.attachmentURL) {
-      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${data.content}<img class="img-content" src=${data.attachmentURL} /></p>`)
-      $divUserTwo = $(`<p>${data.content}<img class="img-content" src=${data.attachmentURL} /></p>`)
+      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${dataContent}<img class="img-content" src=${data.attachmentURL} /></p>`)
+
+      $divUserTwo = $(`<p>${dataContent}<img class="img-content" src=${data.attachmentURL} /></p>`)
 
     } else {
-      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${data.content} </p>`)
-      $divUserTwo = $(`<p>${data.content}</p>`)
+      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${dataContent} </p>`)
+      $divUserTwo = $(`<p>${dataContent}</p>`)
 
     }
     
@@ -116,7 +117,6 @@ $(function() {
       $messageDiv = $('<li class="collection-item avatar"/>')
         .append($imgAvatar, $divUser);
 
-     
     }
     addMessageElement($messageDiv);
   }
