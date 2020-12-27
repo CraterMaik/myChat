@@ -4,12 +4,15 @@ $(function() {
   let avatarURL = $(".img-url").attr("src");
   let userName = $('.profile-username-footer').text();
   let idSave = '';
+  let idSaveLocal = '';
   const socket = io();
   $inputMessage = $('.inputMSG')
   $inputMessage.focus();
   $messages = $('.messages');
   let md = window.markdownit().use(window.markdownitEmoji);
-  
+  md.renderer.rules.emoji = function (token, idx) {
+    return `<i class="twa twa-3x twa-${token[idx].markup}"></i>`;
+  };
   socket.on("new message", (data) => {
     msgTemplate(data)
  
@@ -67,22 +70,28 @@ $(function() {
 
     options = options || {};
     let $messageDiv = '';
-   
+    $imgAvatar = $(`<img src="${avatarURL}" alt="${userName}-avatar" class="circle">`);
+    $divUserTwo = md.render(data.content)
     $divUser = $(`<span class="title" style="color: white">${userName}</span>
                 ${md.render(data.content)}`)
 
-    $imgAvatar = $(`<img src="${avatarURL}" alt="${userName}-avatar" class="circle">`);
+    if (idSaveLocal === userName) {
+      $messageDiv = $('<li class="collection-item item-chat" id="msg-el"/>')
+        .append($divUserTwo);
 
-    $messageDiv = $('<li class="collection-item avatar"/>')
-      .append($imgAvatar, $divUser);
+    } else {
+      idSaveLocal = userName
+      $messageDiv = $('<li class="collection-item avatar"/>')
+        .append($imgAvatar, $divUser);
 
+    }
+    
     addMessageElement($messageDiv, options);
     
   }
  
   function msgTemplate(data) {
     
-
     if (data.attachmentURL) {
       $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${data.content}<img class="img-content" src=${data.attachmentURL} /></p>`)
       $divUserTwo = $(`<p>${data.content}<img class="img-content" src=${data.attachmentURL} /></p>`)
@@ -93,7 +102,6 @@ $(function() {
 
     }
     
-    
     $imgAvatar = $(`<img src="${data.avatarURL}" alt="${data.author}-avatar" class="circle">`);
 
     if (idSave === data.id) {
@@ -102,6 +110,7 @@ $(function() {
          .append($divUserTwo);
 
     } else {
+      idSaveLocal = data.id
       idSave = data.id
 
       $messageDiv = $('<li class="collection-item avatar"/>')

@@ -14,7 +14,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client({allowedMentions: {parse:[]}});
 
 const fetch = require('node-fetch')
-
+const emoji = require('node-emoji')
 const { toHTML } = require('discord-markdown');
 
 passport.serializeUser((user, done) => {
@@ -105,8 +105,10 @@ client.on('message', async message => {
   if (message.channel.id !== process.env.ID_CHANNEL) return;
   if (message.author.bot) return;
   
+  let emojiFind = emoji.replace(message.content, (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`)
+
   let dataMSG = {
-    content: toHTML(message.content, {
+    content: toHTML(emojiFind, {
       discordCallback: {
         user: node => {
           return '@' + message.guild.members.resolve(node.id).displayName;
@@ -118,7 +120,8 @@ client.on('message', async message => {
           
           return '@'+ message.guild.roles.resolve(node.id).name;
         }
-      }
+      },
+      escapeHTML: false
     }),
     author: message.member.displayName,
     avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),

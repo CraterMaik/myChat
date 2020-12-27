@@ -3,7 +3,9 @@ body {
   background-color: #36393e;
 
 }
-
+img:hover {
+  cursor: pointer;
+}
 /* inicio Row */
 
 .rowMain .rowContentOne {
