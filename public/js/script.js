@@ -8,7 +8,7 @@ $(function() {
   $inputMessage = $('.inputMSG')
   $inputMessage.focus();
   $messages = $('.messages');
-
+  let md = window.markdownit().use(window.markdownitEmoji);
   
   socket.on("new message", (data) => {
     msgTemplate(data)
@@ -48,7 +48,6 @@ $(function() {
    
     let addMgs = $inputMessage.val();
     addMsg = clearInput(addMgs);
-
     if (addMsg) {
       $inputMessage.val('');
       const data = {
@@ -68,8 +67,9 @@ $(function() {
 
     options = options || {};
     let $messageDiv = '';
-
-    $divUser = $(`<span class="title" style="color: white">${userName}</span><p>${data.content}</p>`)
+   
+    $divUser = $(`<span class="title" style="color: white">${userName}</span>
+                ${md.render(data.content)}`)
 
     $imgAvatar = $(`<img src="${avatarURL}" alt="${userName}-avatar" class="circle">`);
 
