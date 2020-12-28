@@ -15,9 +15,9 @@ $(function() {
   };
   socket.on("new message", (data) => {
     msgTemplate(data)
-    switch_to_low_fi();
+    emoji_animeted();
   });
-  function switch_to_low_fi() {
+  function emoji_animeted() {
     $('.d-emoji-animated').each(function (index, element) {
       element.src = element.src.replace('.png', '.gif');
     });
