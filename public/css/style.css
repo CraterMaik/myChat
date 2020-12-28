@@ -505,12 +505,11 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
 }
 /* Markdown Discord */
 .d-emoji {
-  width: 48px;
-}
-.d-emoji-text {
   width: 22px;
-  position: absolute;
-  margin-left: 3px;
+  margin: 0 0 -7px;
+}
+.d-emoji-only {
+  width: 48px;
 }
 .d-mention {
   border-radius: 3px;
@@ -537,6 +536,13 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   max-width: 400px;
   display: block;
   
+}
+.hljs {
+  background: #303136;
+  border-radius: 4px;
+  border: solid 1px #1d1c1c;
+  color: #adadadf7;
+  width: 80%;
 }
 
 .collection .collection-item {

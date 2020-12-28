@@ -10,20 +10,40 @@ $(function() {
   $inputMessage.focus();
   $messages = $('.messages');
   let md = window.markdownit().use(window.markdownitEmoji);
+
   md.renderer.rules.emoji = function (token, idx) {
     return `<i class="twa twa-3x twa-${token[idx].markup}"></i>`;
   };
-  socket.on("new message", (data) => {
-    msgTemplate(data)
-    emoji_animeted();
-  });
+
+  function extractContent(html) {
+    if (html.replace(/<[^>]+>/g, '').trim()) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   function emoji_animeted() {
     $('.d-emoji-animated').each(function (index, element) {
       element.src = element.src.replace('.png', '.gif');
     });
   }
 
+  function emoji_only() {
 
+    $('.messages li:last-child p .d-emoji').each(function (e) {
+      $(this).addClass("d-emoji-only");
+    });
+  }
+
+  socket.on("new message", (data) => {
+    msgTemplate(data)
+    emoji_animeted();
+    if (!extractContent(data.content)) {
+      emoji_only();
+    }
+  });
+  
   function clearInput(msg){
     return $('<div/>').text(msg).text();
   }
@@ -97,14 +117,16 @@ $(function() {
     addMessageElement($messageDiv, options);
     
   }
- 
+  
   function msgTemplate(data) {
     let dataContent = data.content;
+
     if (data.attachmentURL) {
-      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${dataContent}<img class="img-content" src=${data.attachmentURL} /></p>`)
+      if(data.attachmentURL.endsWith('.mp4'))
+      $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${dataContent}<${data.attachmentURL.endsWith('.mp4') ? 'video controls' : 'img'} class="img-content" src=${data.attachmentURL} /></p>`)
 
       $divUserTwo = $(`<p>${dataContent}<img class="img-content" src=${data.attachmentURL} /></p>`)
-
+      
     } else {
       $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${dataContent} </p>`)
       $divUserTwo = $(`<p>${dataContent}</p>`)

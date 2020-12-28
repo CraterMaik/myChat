@@ -99,7 +99,6 @@ client.on('ready', () => {
    })
  })
 
-
 client.on('message', async message => {
   
   if (message.channel.id !== process.env.ID_CHANNEL) return;
@@ -120,7 +119,6 @@ client.on('message', async message => {
     escapeHTML: true
   })
   let emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`);
-
   let dataMSG = {
     content: emojiFind,
     author: message.member.displayName,
