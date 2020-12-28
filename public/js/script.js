@@ -15,8 +15,15 @@ $(function() {
   };
   socket.on("new message", (data) => {
     msgTemplate(data)
- 
+    switch_to_low_fi();
   });
+  function switch_to_low_fi() {
+    $('.d-emoji-animated').each(function (index, element) {
+      element.src = element.src.replace('.png', '.gif');
+    });
+  }
+
+
   function clearInput(msg){
     return $('<div/>').text(msg).text();
   }
@@ -45,7 +52,7 @@ $(function() {
     }
 
     $messages[0].scrollTop = $messages[0].scrollHeight;
-
+    
   }
   function addMessage() {
    
@@ -70,6 +77,7 @@ $(function() {
 
     options = options || {};
     let $messageDiv = '';
+    
     $imgAvatar = $(`<img src="${avatarURL}" alt="${userName}-avatar" class="circle">`);
     $divUserTwo = md.render(data.content)
     $divUser = $(`<span class="title" style="color: white">${userName}</span>
@@ -118,7 +126,9 @@ $(function() {
         .append($imgAvatar, $divUser);
 
     }
+    
     addMessageElement($messageDiv);
+
   }
 
   $window.keydown(function (event) {
