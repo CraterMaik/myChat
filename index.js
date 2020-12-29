@@ -60,20 +60,30 @@ app
   next();
 })
 .use("/", require('./rutas/index'))
-.use("/perfil", require('./rutas/perfil'))
 
 .get('*', function(req, res) {
   res.send('Error 404!')
 })
 
+function validInvs(txt) {
+
+  const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim;
+
+  const invs = txt.match(regex);
+  return (invs ? true : false);
+
+}
+
 client.on('ready', () => {
-  console.log('Estoy Listo');
+  console.log('Ready!');
 })
 /* Events Socket io */
 
  io.on('connection', socket => {
    socket.on('add message', function (data) {
-     
+     if (validInvs(data.content)) {
+        data.content = `**${data.username}** invalid link.`
+     }
      const body = JSON.stringify({
        allowed_mentions: {
          parse: []
@@ -134,7 +144,7 @@ client.on('message', async message => {
 
 server.listen('3030', function () {
   client.login(process.env.TOKEN_BOT)
-  console.log('Listo, en el puerto 3030');
+  console.log('Ready, port 3030');
 })
 
 process.on("unhandledRejection", (r) => {
