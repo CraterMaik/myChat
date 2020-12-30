@@ -534,6 +534,7 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   margin-top: 6px;
   border-radius: 2px;
   max-width: 400px;
+  max-height: 350px;
   display: block;
   
 }

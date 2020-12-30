@@ -10,9 +10,9 @@ $(function() {
   $inputMessage.focus();
   $messages = $('.messages');
   let md = window.markdownit().use(window.markdownitEmoji);
-
   md.renderer.rules.emoji = function (token, idx) {
     return `<i class="twa twa-3x twa-${token[idx].markup}"></i>`;
+  
   };
 
   function extractContent(html) {
@@ -30,18 +30,21 @@ $(function() {
   }
 
   function emoji_only() {
-
     $('.messages li:last-child p .d-emoji').each(function (e) {
       $(this).addClass("d-emoji-only");
     });
+    
+
   }
 
   socket.on("new message", (data) => {
     msgTemplate(data)
     emoji_animeted();
+    
     if (!extractContent(data.content)) {
       emoji_only();
     }
+
   });
   
   function clearInput(msg){
@@ -89,7 +92,7 @@ $(function() {
       
       idSave = userName;
       socket.emit('add message', data)
-
+      
     }
 
   }
@@ -113,9 +116,8 @@ $(function() {
         .append($imgAvatar, $divUser);
 
     }
-    
+
     addMessageElement($messageDiv, options);
-    
   }
   
   function msgTemplate(data) {
@@ -148,9 +150,8 @@ $(function() {
         .append($imgAvatar, $divUser);
 
     }
-    
-    addMessageElement($messageDiv);
 
+    addMessageElement($messageDiv);
   }
 
   $window.keydown(function (event) {
