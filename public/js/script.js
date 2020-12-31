@@ -36,16 +36,21 @@ $(function() {
     
 
   }
-
+ 
   socket.on("new message", (data) => {
-    msgTemplate(data)
+    msgTemplate(data);
     emoji_animeted();
-    
+
     if (!extractContent(data.content)) {
-      emoji_only();
+     emoji_only();
     }
 
   });
+
+  socket.on('add message', function (data) {
+    renderMessage(data);
+  })
+
   
   function clearInput(msg){
     return $('<div/>').text(msg).text();
@@ -164,9 +169,6 @@ $(function() {
     }
   })
 
-  socket.on('add message', function(data) {
-    renderMessage(data)
-  })
 })
 
   
