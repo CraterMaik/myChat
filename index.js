@@ -148,7 +148,7 @@ client.on('ready', () => {
       allowed_mentions: {
         parse: []
       },
-      content: `**Left:** ${user.username}#${user.discriminator} (${user.id})`,
+      content: `**Leave:** ${user.username}#${user.discriminator} (${user.id})`,
       username: 'MyChat',
       avatar_url: 'https://i.imgur.com/TVaNWMn.png'
     });
@@ -162,7 +162,7 @@ client.on('ready', () => {
     client.channels.resolve(process.env.ID_CHANNEL_LOG)
       .send({
         embed: {
-          title: `Left: ${user.username}#${user.discriminator} (${user.id})`,
+          title: `Leave: ${user.username}#${user.discriminator} (${user.id})`,
           color: 0xe52b50
         }
       })
