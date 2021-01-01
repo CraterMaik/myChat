@@ -133,7 +133,7 @@ $(function() {
     let dataContent = data.content;
 
     if (data.attachmentURL) {
-      if(data.attachmentURL.endsWith('.mp4'))
+      
       $divUser = $(`<span class="title" style="color: ${data.colorName}">${data.author} <span class="datep">${data.date}</span></span><p>${dataContent}<${data.attachmentURL.endsWith('.mp4') ? 'video controls' : 'img'} class="img-content" src=${data.attachmentURL} /></p>`)
 
       $divUserTwo = $(`<p>${dataContent}<img class="img-content" src=${data.attachmentURL} /></p>`)
