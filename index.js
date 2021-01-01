@@ -59,7 +59,6 @@ app
 .use(passport.session())
 .use(function(req, res, next){
   req.client = client;
-  req.socket = io;
   next();
 })
 .use("/", require('./rutas/index'))
