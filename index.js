@@ -17,6 +17,8 @@ const fetch = require('node-fetch')
 const emoji = require('node-emoji')
 const { toHTML } = require('discord-markdown');
 
+let URLWH = `https://discord.com/api/v8/webhooks/${process.env.ID_WH}/${process.env.TOKEN_WH}`
+
 passport.serializeUser((user, done) => {
   done(null, user)
 })
@@ -57,6 +59,7 @@ app
 .use(passport.session())
 .use(function(req, res, next){
   req.client = client;
+  req.socket = io;
   next();
 })
 .use("/", require('./rutas/index'))
@@ -100,8 +103,7 @@ client.on('ready', () => {
        avatar_url: data.avatarURL
      });
 
-     let URLWH = `https://discord.com/api/v8/webhooks/${process.env.ID_WH}/${process.env.TOKEN_WH}`
-
+     
      fetch(URLWH, {
        method: 'POST',
        body: body,
@@ -113,6 +115,58 @@ client.on('ready', () => {
      socket.broadcast.emit('add message', {
        content: data.content
      })
+   })
+   socket.on('join', async function(userId) {
+    
+    let user = await client.users.fetch(userId);
+    let bodyWH = JSON.stringify({
+      allowed_mentions: {
+        parse: []
+      },
+      content: `**Join:** ${user.username}#${user.discriminator} (${user.id})`,
+      username: 'MyChat',
+      avatar_url: 'https://i.imgur.com/TVaNWMn.png'
+    });
+     fetch(URLWH, {
+       method: 'POST',
+       body: bodyWH,
+       headers: {
+         'Content-Type': 'application/json'
+       }
+     });
+    socket.userId = userId
+    client.channels.resolve(process.env.ID_CHANNEL_LOG)
+      .send({embed: {
+        title: `Join: ${user.username}#${user.discriminator} (${user.id})`,
+        color: 0x8db600
+      }})
+    
+   })
+   
+   socket.on('disconnect', async function () {
+    let user = await client.users.fetch(socket.userId);
+    let bodyWH = JSON.stringify({
+      allowed_mentions: {
+        parse: []
+      },
+      content: `**Left:** ${user.username}#${user.discriminator} (${user.id})`,
+      username: 'MyChat',
+      avatar_url: 'https://i.imgur.com/TVaNWMn.png'
+    });
+    fetch(URLWH, {
+      method: 'POST',
+      body: bodyWH,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    client.channels.resolve(process.env.ID_CHANNEL_LOG)
+      .send({
+        embed: {
+          title: `Left: ${user.username}#${user.discriminator} (${user.id})`,
+          color: 0xe52b50
+        }
+      })
    })
  })
 

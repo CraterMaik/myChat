@@ -9,12 +9,15 @@ $(function() {
   $inputMessage = $('.inputMSG')
   $inputMessage.focus();
   $messages = $('.messages');
+  let iduser = document.getElementById('iduser').dataset.test
+
+  socket.emit('join', iduser)
   let md = window.markdownit().use(window.markdownitEmoji);
   md.renderer.rules.emoji = function (token, idx) {
     return `<i class="twa twa-3x twa-${token[idx].markup}"></i>`;
   
   };
-
+ 
   function extractContent(html) {
     if (html.replace(/<[^>]+>/g, '').trim()) {
       return true
@@ -97,6 +100,7 @@ $(function() {
       
       idSave = userName;
       socket.emit('add message', data)
+      
       
     }
 
