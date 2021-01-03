@@ -5,7 +5,9 @@ $(function() {
   let userName = $('.profile-username-footer').text();
   let idSave = '';
   let idSaveLocal = '';
+  
   const socket = io();
+
   $inputMessage = $('.inputMSG')
   $inputMessage.focus();
   $messages = $('.messages');
@@ -37,7 +39,6 @@ $(function() {
       $(this).addClass("d-emoji-only");
     });
     
-
   }
  
   socket.on("new message", (data) => {
@@ -100,8 +101,7 @@ $(function() {
       
       idSave = userName;
       socket.emit('add message', data)
-      
-      
+
     }
 
   }
