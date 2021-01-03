@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const passport = require('passport');
 const { Strategy } = require('passport-discord');
+
 require('dotenv').config()
+
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
@@ -68,13 +70,13 @@ app
 })
 
 function validInvs(txt) {
-
   const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim;
 
   const invs = txt.match(regex);
   return (invs ? true : false);
 
 }
+
 function extractContent(html) {
   if (html.replace(/<[^>]+>/g, '').trim()) {
     return true
@@ -86,7 +88,6 @@ function extractContent(html) {
 client.on('ready', () => {
   console.log('Ready!');
 })
-/* Events Socket io */
 
  io.on('connection', socket => {
    socket.on('add message', function (data) {
