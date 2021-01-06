@@ -28,7 +28,7 @@ $(function() {
     }
   }
 
-  function emoji_animeted() {
+  function emoji_animated() {
     $('.d-emoji-animated').each(function (index, element) {
       element.src = element.src.replace('.png', '.gif');
     });
@@ -43,7 +43,7 @@ $(function() {
  
   socket.on("new message", (data) => {
     msgTemplate(data);
-    emoji_animeted();
+    emoji_animated();
 
     if (!extractContent(data.content)) {
      emoji_only();
