@@ -103,7 +103,6 @@ client.on('ready', () => {
        avatar_url: data.avatarURL
      });
 
-     
      fetch(URLWH, {
        method: 'POST',
        body: body,
@@ -153,6 +152,7 @@ client.on('ready', () => {
       username: 'MyChat',
       avatar_url: 'https://i.imgur.com/TVaNWMn.png'
     });
+
     fetch(URLWH, {
       method: 'POST',
       body: bodyWH,
@@ -160,6 +160,7 @@ client.on('ready', () => {
         'Content-Type': 'application/json'
       }
     });
+
     client.channels.resolve(process.env.ID_CHANNEL_LOG)
       .send({
         embed: {
@@ -167,6 +168,7 @@ client.on('ready', () => {
           color: 0xe52b50
         }
       })
+
    })
  })
 
@@ -174,6 +176,7 @@ client.on('message', async message => {
   
   if (message.channel.id !== process.env.ID_CHANNEL) return;
   if (message.author.bot) return;
+
   let dataMDiscord = toHTML(message.content, {
     discordCallback: {
       user: node => {
@@ -204,6 +207,7 @@ client.on('message', async message => {
     colorName: message.member.displayHexColor,
     attachmentURL: message.attachments.first() && message.attachments.first().height !== null ? message.attachments.first().attachment : null
   }
+
   io.emit('new message', dataMSG)
   
 })
@@ -211,9 +215,11 @@ client.on('message', async message => {
 server.listen('3030', function () {
   client.login(process.env.TOKEN_BOT)
   console.log('Ready, port 3030');
+
 })
 
 process.on("unhandledRejection", (r) => {
   console.dir(r);
+  
 });
 
