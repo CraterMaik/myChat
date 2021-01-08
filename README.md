@@ -23,16 +23,17 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 
 **2- Ejecutar tu aplicación**
 - Ejecutar el siguiente comando:
-> En desarrollo:
+
 > ```bash
-> npm run dev
+> npm install
 > ```
 
-> En producción:
 > ```bash
 > npm start
 > ```
-> NOTA: En producción tal vez quieras ejecutar tu app con nodejs (`node index.js`) desde algun servicio que la mantenga activa, por ejemplo [systemd](https://en.wikipedia.org/wiki/Systemd) (Wikipedia)
+
+> NOTA: En producción tal vez quieras ejecutar tu app con nodejs (`node index.js`) desde algun servicio que la mantenga activa, por ejemplo en Heroku
 
 ## ADICIONAL:
 En el archivo `.env.example` que se encuentra en la carpeta principal esta un ejemplo de CraterMaik de como deberia ser el `.env` (Pero mejor leen arriba).
+
