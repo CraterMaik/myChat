@@ -221,7 +221,7 @@ img:hover {
 
 .rowMain .rowOptions .profile-body-optionContent {
   position: absolute;
-  top: 91vh;
+  top: 93vh;
   padding: 10px;
   background-color: #292b2f;
   width: 100%;
@@ -238,6 +238,9 @@ img:hover {
 }
 .rowMain .rowOptions .profile-body-optionContent .profile-content .profile-discrim-footer {
   font-size: 12px;
+  position: absolute;
+  top: 51%;
+  left: 24%;
   font-weight: 400;
   color: #b0b2b5;
 }

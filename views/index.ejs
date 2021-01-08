@@ -35,7 +35,7 @@
         <a href="#">
          <div class="select-iconContent">
          </div>
-         <img src="<%= channel.guild.iconURL({dynamic: true})%>" alt="<%=channel.guild.name%>">
+         <img src="<%= channel.guild.iconURL({dynamic: true}) || 'https://cdn.discordapp.com/embed/avatars/1.png'%>" alt="<%=channel.guild.name%>">
         </a>
        </div>
       
@@ -67,7 +67,7 @@
           <div class="profile-content">
             <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="Avatar <%=user.username%>"  width="39" height="39" class="circle img-url">
             
-            <span class="profile-username-footer"><%=user.username%></span><!-- <span class="profile-discrim-footer">#<%=user.discriminator%></span> -->
+            <span class="profile-username-footer"><%=user.username%></span><span class="profile-discrim-footer">#<%=user.discriminator%></span>
             <span class="profile-footer-icons">
               <i class="material-icons">mic</i>
               <i class="material-icons">headset</i>

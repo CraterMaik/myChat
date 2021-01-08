@@ -92,7 +92,7 @@ client.on('ready', () => {
  io.on('connection', socket => {
    socket.on('add message', function (data) {
      if (validInvs(data.content)) {
-        data.content = `**${data.username}** invalid link.`
+        data.content = `**Link inválido**`
      }
      const body = JSON.stringify({
        allowed_mentions: {
@@ -122,9 +122,9 @@ client.on('ready', () => {
       allowed_mentions: {
         parse: []
       },
-      content: `**Join:** ${user.username}#${user.discriminator} (${user.id})`,
-      username: 'MyChat',
-      avatar_url: 'https://i.imgur.com/TVaNWMn.png'
+      content: `**Se unió:** ${user.username}#${user.discriminator} (${user.id})`,
+      username: process.env.WH_NAME,
+      avatar_url: process.env.WH_AVATAR
     });
      fetch(URLWH, {
        method: 'POST',
@@ -136,7 +136,7 @@ client.on('ready', () => {
     socket.userId = userId
     client.channels.resolve(process.env.ID_CHANNEL_LOG)
       .send({embed: {
-        title: `Join: ${user.username}#${user.discriminator} (${user.id})`,
+        title: `Se unió: ${user.username}#${user.discriminator} (${user.id})`,
         color: 0x8db600
       }})
     
@@ -148,9 +148,9 @@ client.on('ready', () => {
       allowed_mentions: {
         parse: []
       },
-      content: `**Leave:** ${user.username}#${user.discriminator} (${user.id})`,
-      username: 'MyChat',
-      avatar_url: 'https://i.imgur.com/TVaNWMn.png'
+      content: `**Salió:** ${user.username}#${user.discriminator} (${user.id})`,
+      username: process.env.WH_NAME,
+      avatar_url: process.env.WH_AVATAR
     });
 
     fetch(URLWH, {
@@ -164,7 +164,7 @@ client.on('ready', () => {
     client.channels.resolve(process.env.ID_CHANNEL_LOG)
       .send({
         embed: {
-          title: `Leave: ${user.username}#${user.discriminator} (${user.id})`,
+          title: `Salió: ${user.username}#${user.discriminator} (${user.id})`,
           color: 0xe52b50
         }
       })
@@ -204,7 +204,7 @@ client.on('message', async message => {
     avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),
     id: message.author.id,
     date: message.createdAt.toLocaleDateString('es-ES'),
-    colorName: message.member.displayHexColor,
+    colorName: message.member.displayColor ? message.member.displayHexColor : '#ffffff',
     attachmentURL: message.attachments.first() && message.attachments.first().height !== null ? message.attachments.first().attachment : null
   }
 
@@ -212,7 +212,7 @@ client.on('message', async message => {
   
 })
 
-const port = process.env.PORT || 3000;
+const port = 80;
 
 server.listen(port, function () {
   client.login(process.env.TOKEN_BOT)
