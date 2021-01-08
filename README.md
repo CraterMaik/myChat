@@ -3,6 +3,8 @@
 # MyChat
 MyChat es una aplicación de mensajería en tiempo real con servidores de Discord de código abierto (similar a un canal de Discord). MyChat utiliza la autenticación (OAuth2) de una cuenta de usuario Discord y mediante la integración de un webhook para conectarse a un canal de Discord. MyDrive está construido con Express, Socket.io, Passport y Discord.js en el servidor y Materialize css y JQuery en el cliente.
 
+[MyChat Demo](https://mychat-discord.herokuapp.com/)
+
 ## Instrucciones para publicar a producción
 
 **1- Crear archivo `.env`**
@@ -21,16 +23,17 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 
 **2- Ejecutar tu aplicación**
 - Ejecutar el siguiente comando:
-> En desarrollo:
+
 > ```bash
-> npm run dev
+> npm install
 > ```
 
-> En producción:
 > ```bash
 > npm start
 > ```
-> NOTA: En producción tal vez quieras ejecutar tu app con nodejs (`node index.js`) desde algun servicio que la mantenga activa, por ejemplo [systemd](https://en.wikipedia.org/wiki/Systemd) (Wikipedia)
+
+> NOTA: En producción tal vez quieras ejecutar tu app con nodejs (`node index.js`) desde algun servicio que la mantenga activa, por ejemplo en Heroku
 
 ## ADICIONAL:
 En el archivo `.env.example` que se encuentra en la carpeta principal esta un ejemplo de CraterMaik de como deberia ser el `.env` (Pero mejor leen arriba).
+
