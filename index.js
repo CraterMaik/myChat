@@ -13,7 +13,7 @@ const session = require('express-session');
 
 const path = require('path');
 const Discord = require('discord.js');
-const client = new Discord.Client({allowedMentions: {parse:[]}});
+const client = new Discord.Client({ allowedMentions: { parse: [] } });
 
 const fetch = require('node-fetch')
 const emoji = require('node-emoji')
@@ -44,30 +44,30 @@ passport.use(new Strategy({
 }))
 
 app
-.use(bodyparser.json())
-.use(bodyparser.urlencoded({
-  extended: true
-}))
-.engine("html", require('ejs').renderFile)
-.use(express.static(path.join(__dirname, "/public")))
-.set("views", path.join(__dirname, "views"))
-.set("view engine", "ejs")
-.use(session({
-  secret: 'name',
-  resave: false,
-  saveUninitialized: false
-}))
-.use(passport.initialize())
-.use(passport.session())
-.use(function(req, res, next){
-  req.client = client;
-  next();
-})
-.use("/", require('./rutas/index'))
+  .use(bodyparser.json())
+  .use(bodyparser.urlencoded({
+    extended: true
+  }))
+  .engine("html", require('ejs').renderFile)
+  .use(express.static(path.join(__dirname, "/public")))
+  .set("views", path.join(__dirname, "views"))
+  .set("view engine", "ejs")
+  .use(session({
+    secret: 'name',
+    resave: false,
+    saveUninitialized: false
+  }))
+  .use(passport.initialize())
+  .use(passport.session())
+  .use(function (req, res, next) {
+    req.client = client;
+    next();
+  })
+  .use("/", require('./rutas/index'))
 
-.get('*', function(req, res) {
-  res.send('Error 404!')
-})
+  .get('*', function (req, res) {
+    res.send('Error 404!')
+  })
 
 function validInvs(txt) {
   const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim;
@@ -89,34 +89,37 @@ client.on('ready', () => {
   console.log('Ready!');
 })
 
- io.on('connection', socket => {
-   socket.on('add message', function (data) {
-     if (validInvs(data.content)) {
-        data.content = `**${data.username}** invalid link.`
-     }
-     const body = JSON.stringify({
-       allowed_mentions: {
-         parse: []
-       },
-       content: data.content,
-       username: data.username,
-       avatar_url: data.avatarURL
-     });
+io.on('connection', socket => {
+  socket.on('add message', function (data) {
+    if (validInvs(data.content)) {
+      data.content = `**${data.username}** invalid link.`
+    }
+    const body = JSON.stringify({
+      allowed_mentions: {
+        parse: []
+      },
+      content: data.content,
+      username: data.username,
+      avatar_url: data.avatarURL
+    });
 
-     fetch(URLWH, {
-       method: 'POST',
-       body: body,
-       headers: {
-         'Content-Type': 'application/json'
-       }
-     });
+    fetch(URLWH, {
+      method: 'POST',
+      body: body,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-     socket.broadcast.emit('add message', {
-       content: data.content
-     })
-   })
-   socket.on('join', async function(userId) {
-    
+    socket.broadcast.emit('add message', {
+      id: data.id,
+      content: data.content,
+      username: data.username,
+      avatarURL: data.avatarURL
+    })
+  })
+  socket.on('join', async function (userId) {
+
     let user = await client.users.fetch(userId);
     let bodyWH = JSON.stringify({
       allowed_mentions: {
@@ -126,23 +129,25 @@ client.on('ready', () => {
       username: 'MyChat',
       avatar_url: 'https://i.imgur.com/TVaNWMn.png'
     });
-     fetch(URLWH, {
-       method: 'POST',
-       body: bodyWH,
-       headers: {
-         'Content-Type': 'application/json'
-       }
-     });
+    fetch(URLWH, {
+      method: 'POST',
+      body: bodyWH,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     socket.userId = userId
     client.channels.resolve(process.env.ID_CHANNEL_LOG)
-      .send({embed: {
-        title: `Join: ${user.username}#${user.discriminator} (${user.id})`,
-        color: 0x8db600
-      }})
-    
-   })
-   
-   socket.on('disconnect', async function () {
+      .send({
+        embed: {
+          title: `Join: ${user.username}#${user.discriminator} (${user.id})`,
+          color: 0x8db600
+        }
+      })
+
+  })
+
+  socket.on('disconnect', async function () {
     let user = await client.users.fetch(socket.userId);
     let bodyWH = JSON.stringify({
       allowed_mentions: {
@@ -169,11 +174,11 @@ client.on('ready', () => {
         }
       })
 
-   })
- })
+  })
+})
 
 client.on('message', async message => {
-  
+
   if (message.channel.id !== process.env.ID_CHANNEL) return;
   if (message.author.bot) return;
 
@@ -194,14 +199,14 @@ client.on('message', async message => {
   })
 
   let emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`);
-  if(extractContent(emojiFind)) {
+  if (extractContent(emojiFind)) {
     emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-1x twa-${emoji.key}"></i>`);
   }
 
   let dataMSG = {
     content: emojiFind,
     author: message.member.displayName,
-    avatarURL: message.author.displayAvatarURL({format: 'png', dynamic: true, size: 1024}),
+    avatarURL: message.author.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }),
     id: message.author.id,
     date: message.createdAt.toLocaleDateString('es-ES'),
     colorName: message.member.displayHexColor,
@@ -209,7 +214,7 @@ client.on('message', async message => {
   }
 
   io.emit('new message', dataMSG)
-  
+
 })
 
 const port = process.env.PORT || 3000;
@@ -222,6 +227,6 @@ server.listen(port, function () {
 
 process.on("unhandledRejection", (r) => {
   console.dir(r);
-  
+
 });
 
