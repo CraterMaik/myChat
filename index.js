@@ -1,23 +1,23 @@
-const express = require('express');
-const app = express();
-const passport = require('passport');
-const { Strategy } = require('passport-discord');
+const express = require('express')
+const app = express()
+const passport = require('passport')
+const { Strategy } = require('passport-discord')
 
 require('dotenv').config()
 
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-const bodyparser = require('body-parser');
-const session = require('express-session');
+const bodyparser = require('body-parser')
+const session = require('express-session')
 
-const path = require('path');
-const Discord = require('discord.js');
-const client = new Discord.Client({ allowedMentions: { parse: [] } });
+const path = require('path')
+const Discord = require('discord.js')
+const client = new Discord.Client({ allowedMentions: { parse: [] } })
 
 const fetch = require('node-fetch')
 const emoji = require('node-emoji')
-const { toHTML } = require('discord-markdown');
+const { toHTML } = require('discord-markdown')
 
 let URLWH = `https://discord.com/api/v8/webhooks/${process.env.ID_WH}/${process.env.TOKEN_WH}`
 
@@ -38,16 +38,14 @@ passport.use(new Strategy({
   scope: scopes
 }, function (accessToken, refreshToken, profile, done) {
   process.nextTick(function () {
-    return done(null, profile);
+    return done(null, profile)
 
   })
 }))
 
 app
   .use(bodyparser.json())
-  .use(bodyparser.urlencoded({
-    extended: true
-  }))
+  .use(bodyparser.urlencoded({ extended: true }))
   .engine("html", require('ejs').renderFile)
   .use(express.static(path.join(__dirname, "/public")))
   .set("views", path.join(__dirname, "views"))
@@ -60,21 +58,18 @@ app
   .use(passport.initialize())
   .use(passport.session())
   .use(function (req, res, next) {
-    req.client = client;
-    next();
+    req.client = client
+    next()
   })
   .use("/", require('./rutas/index'))
 
-  .get('*', function (req, res) {
-    res.send('Error 404!')
-  })
+  .get('*', function (req, res) { res.send('Error 404!') })
 
 function validInvs(txt) {
-  const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim;
+  const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim
+  const invs = txt.match(regex)
 
-  const invs = txt.match(regex);
-  return (invs ? true : false);
-
+  return (invs ? true : false)
 }
 
 function extractContent(html) {
@@ -86,7 +81,7 @@ function extractContent(html) {
 }
 
 client.on('ready', () => {
-  console.log('Ready!');
+  console.log('Ready!')
 })
 
 io.on('connection', socket => {
@@ -101,7 +96,7 @@ io.on('connection', socket => {
       content: data.content,
       username: data.username,
       avatar_url: data.avatarURL
-    });
+    })
 
     fetch(URLWH, {
       method: 'POST',
@@ -109,7 +104,7 @@ io.on('connection', socket => {
       headers: {
         'Content-Type': 'application/json'
       }
-    });
+    })
 
     socket.broadcast.emit('add message', {
       id: data.id,
@@ -118,9 +113,9 @@ io.on('connection', socket => {
       avatarURL: data.avatarURL
     })
   })
-  socket.on('join', async function (userId) {
 
-    let user = await client.users.fetch(userId);
+  socket.on('join', async function (userId) {
+    let user = await client.users.fetch(userId)
     let bodyWH = JSON.stringify({
       allowed_mentions: {
         parse: []
@@ -128,27 +123,28 @@ io.on('connection', socket => {
       content: `**Join:** ${user.username}#${user.discriminator} (${user.id})`,
       username: 'MyChat',
       avatar_url: 'https://i.imgur.com/TVaNWMn.png'
-    });
+    })
+
     fetch(URLWH, {
       method: 'POST',
       body: bodyWH,
       headers: {
         'Content-Type': 'application/json'
       }
-    });
+    })
+
     socket.userId = userId
-    client.channels.resolve(process.env.ID_CHANNEL_LOG)
-      .send({
-        embed: {
-          title: `Join: ${user.username}#${user.discriminator} (${user.id})`,
-          color: 0x8db600
-        }
-      })
+    client.channels.resolve(process.env.ID_CHANNEL_LOG).send({
+      embed: {
+        title: `Join: ${user.username}#${user.discriminator} (${user.id})`,
+        color: 0x8db600
+      }
+    })
 
   })
 
   socket.on('disconnect', async function () {
-    let user = await client.users.fetch(socket.userId);
+    let user = await client.users.fetch(socket.userId)
     let bodyWH = JSON.stringify({
       allowed_mentions: {
         parse: []
@@ -156,7 +152,7 @@ io.on('connection', socket => {
       content: `**Leave:** ${user.username}#${user.discriminator} (${user.id})`,
       username: 'MyChat',
       avatar_url: 'https://i.imgur.com/TVaNWMn.png'
-    });
+    })
 
     fetch(URLWH, {
       method: 'POST',
@@ -164,7 +160,7 @@ io.on('connection', socket => {
       headers: {
         'Content-Type': 'application/json'
       }
-    });
+    })
 
     client.channels.resolve(process.env.ID_CHANNEL_LOG)
       .send({
@@ -173,34 +169,32 @@ io.on('connection', socket => {
           color: 0xe52b50
         }
       })
-
   })
 })
 
 client.on('message', async message => {
-
-  if (message.channel.id !== process.env.ID_CHANNEL) return;
-  if (message.author.bot) return;
+  if (message.channel.id !== process.env.ID_CHANNEL) return
+  if (message.author.bot) return
 
   let dataMDiscord = toHTML(message.content, {
     discordCallback: {
       user: node => {
-        return '@' + message.guild.members.resolve(node.id).displayName;
+        return '@' + message.guild.members.resolve(node.id).displayName
       },
       channel: node => {
-        return '#' + message.guild.channels.resolve(node.id).name;
+        return '#' + message.guild.channels.resolve(node.id).name
       },
       role: node => {
 
-        return '@' + message.guild.roles.resolve(node.id).name;
+        return '@' + message.guild.roles.resolve(node.id).name
       }
     },
     escapeHTML: true
   })
 
-  let emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`);
+  let emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`)
   if (extractContent(emojiFind)) {
-    emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-1x twa-${emoji.key}"></i>`);
+    emojiFind = emoji.replace(dataMDiscord, (emoji) => `<i class="twa twa-1x twa-${emoji.key}"></i>`)
   }
 
   let dataMSG = {
@@ -214,19 +208,16 @@ client.on('message', async message => {
   }
 
   io.emit('new message', dataMSG)
-
 })
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
 
 server.listen(port, function () {
   client.login(process.env.TOKEN_BOT)
-  console.log(`Ready, port ${port}`);
-
+  console.log(`Ready, port ${port}`)
 })
 
 process.on("unhandledRejection", (r) => {
-  console.dir(r);
-
-});
+  console.dir(r)
+})
 
