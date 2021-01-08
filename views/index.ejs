@@ -65,9 +65,9 @@
        </div>
        <div class="profile-body-optionContent">
           <div class="profile-content">
-            <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="Avatar <%=user.username%>"  width="39" height="39" class="circle img-url">
+            <img src="<%= avatarURL %>" alt="Avatar <%=user.username%>"  width="39" height="39" class="circle img-url">
             
-            <span class="profile-username-footer"><%=user.username%></span><span class="profile-discrim-footer">#<%=user.discriminator%></span>
+            <span class="profile-username-footer"><%=user.username.length > 10 ? user.username.slice(0, 10)+'...' : user.username%></span><span class="profile-discrim-footer">#<%=user.discriminator%></span>
             <span class="profile-footer-icons">
               <i class="material-icons">mic</i>
               <i class="material-icons">headset</i>
@@ -163,6 +163,6 @@
   <script src="./socket.io/socket.io.js"></script>
 
   <script src="../js/script.js"></script>
-  
+  <span class="profile-username-footer-name" style="visibility: hidden;"><%=user.username%></span>
 </body>
 </html>
