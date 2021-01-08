@@ -7,6 +7,10 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
+  "engines": {
+    "node": "12.x",
+    "npm": "*"
+  },
   "keywords": [],
   "author": "CraterMaik",
   "license": "MIT",
