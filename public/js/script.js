@@ -1,7 +1,7 @@
 $(function () {
   let $window = $(window)
   let avatarURL = $(".img-url").attr("src")
-  let userName = $('.profile-username-footer').text()
+  let userName = $('.profile-username-footer-name').text()
   let idSaveLocal = ''
   let idLastMessage = ''
 
