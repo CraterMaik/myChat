@@ -1,4 +1,3 @@
-
 $(function () {
   let $window = $(window)
   let avatarURL = $(".img-url").attr("src")
