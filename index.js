@@ -212,7 +212,7 @@ client.on('message', async message => {
   
 })
 
-const port = 80;
+const port = process.env.PORT || 3000;
 
 server.listen(port, function () {
   client.login(process.env.TOKEN_BOT)
