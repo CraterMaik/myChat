@@ -1,0 +1,6 @@
+node_modules/
+Procfile
+mychat.service
+mychat-pm2.config.js
+package-lock.json
+.env.example
