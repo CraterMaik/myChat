@@ -60,7 +60,9 @@ Administrador incluido en varias distribuciones de Linux.
 Un ejemplo se encuentra en `mychat.service`. Modifíquelo dependiendo de dónde se ubique Node.js y MyChat
 
 >`cp mychat.service /etc/systemd/system`
+
 >`systemctl enable --now mychat`
+
 >`systemctl status mychat`
 
 - [DaemonMaster](https://github.com/TWC-Software/DaemonMaster) (sólo Windows):
@@ -75,7 +77,10 @@ Si aún deseas ver la consola, inicia el servicio en tu sesión actual.
 
 **3.1- Ejecutar MyChat en un contenedor (Docker)**
 
-Si no quieres molestarte en instalar Node.js o los paquetes, y tienes Docker, una vez hecho el paso 2 realizar estos 2 comandos:
+Si no quieres molestarte en instalar Node.js o los paquetes, y tienes Docker, una vez hecho el paso 2, realizar estos 2 comandos:
 
 >`docker build --tag cratermaik/mychat .`
+
 >`docker run -p 3030:3030 cratermaik/mychat`
+
+La app escuchará al puerto 3030, si necesitas otro puerto sólo cambialo (ej. `5000:3030`).
