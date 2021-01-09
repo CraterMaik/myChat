@@ -1,27 +1,29 @@
 # ![MyChat](https://i.imgur.com/CAGI9V6.png)
 
 # MyChat
-MyChat es una aplicación de mensajería en tiempo real con servidores de Discord de código abierto (similar a un canal de Discord). MyChat utiliza la autenticación (OAuth2) de una cuenta de usuario Discord y mediante la integración de un webhook para conectarse a un canal de Discord. MyDrive está construido con Express, Socket.io, Passport y Discord.js en el servidor y Materialize css y JQuery en el cliente.
+MyChat es una aplicación de mensajería en tiempo real con servidores de Discord de código abierto (similar a un canal de Discord). MyChat utiliza la autenticación (OAuth2) de una cuenta de usuario Discord y mediante la integración de un webhook para conectarse a un canal de Discord. MyChat está programado con Express, socket.io, passport y Discord.js en el servidor (back-end) y Materialize CSS y JQuery en el cliente (front-end).
 
-[MyChat Demo](https://mychat-discord.herokuapp.com/)
+[Demo](https://mychat-discord.herokuapp.com/)
 
-## Instrucciones para publicar a producción
+## Instrucciones para desplegar a producción
 
 **1- Crear archivo `.env`**
-- Poner las siguientes variables:
+- Un ejemplo se encuentra en `.env.example` (`cp .env.example .env` en Linux)
+- Configurar las siguientes variables:
 
 > ```ENV
-> ID_WH="" # El ID de la webhook que usará la app para enviar mensajes. (desde la web a Discord)
-> TOKEN_WH="" # El TOKEN de la webhook que usará la app para enviar mensajes. (desde la web a Discord)
-> CLIENT_ID="" # El ID del cliente de la applicación de discord.dev
-> CLIENT_SECRET="" # El código secreto del cliente de la applicación de discord.dev
-> URL="http://localhost:3030" # El URL de la applicación, ya sea desplegada o en desarrollo, en este caso en desarrollo es el que esta.
-> ID_CHANNEL_LOG="" # El ID del canal de Discord en donde se envian logs de la web.
-> ID_CHANNEL="" # El ID del canal de Discord en donde se envian y reciben mensajes. # Adicional: La webhook los envia a el canal donde se estableció.
-> TOKEN_BOT="" # https://cdn.discordapp.com/emojis/502676415708266497.png?v=1
+> PORT=3030 # El puerto donde MyChat escuchará para recibir las peticiones HTTP.
+> ID_WH="" # El ID de el webhook que usará MyChat para enviar mensajes (desde la web a Discord).
+> TOKEN_WH="" # El TOKEN de el webhook que usará MyChat para enviar mensajes (desde la web a Discord).
+> CLIENT_ID="" # El ID del cliente de la app de Discord que usará MyChat de https://discord.dev
+> CLIENT_SECRET="" # El código secreto del cliente de la app de Discord que usará MyChat de https://discord.dev
+> URL="http://localhost:3030" # Esta URL deberá ser configurada en https://discord.dev, ponerlo sin rutas adicionales 
+> ID_CHANNEL_LOG="" # El ID del canal de Discord en donde se envian registros (logs) de la web.
+> ID_CHANNEL="" # El ID del canal de Discord en donde se enviarán y recibirán mensajes. # Adicional: El webhook los envia a el canal donde se estableció.
+> TOKEN_BOT="" # Token del bot de Discord donde MyChat iniciará sesión
 > ```
 
-**2- Ejecutar tu aplicación**
+**2- Ejecutar MyChat**
 - Ejecutar el siguiente comando:
 
 > ```bash
@@ -31,9 +33,42 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 > ```bash
 > npm start
 > ```
+Ó
+> ```bash
+> node index.js
+> ```
 
-> NOTA: En producción tal vez quieras ejecutar tu app con nodejs (`node index.js`) desde algun servicio que la mantenga activa, por ejemplo en Heroku
+**3- Ejecutar MyChat como servicio**
 
-## ADICIONAL:
-En el archivo `.env.example` que se encuentra en la carpeta principal esta un ejemplo de CraterMaik de como deberia ser el `.env` (Pero mejor leen arriba).
+De esa manera se mantendrá encendido junto con el sistema sin molestar otras apps o la UI (como la terminal).
+Aqui algunos administradores de servicio:
 
+- [PM2](https://github.com/Unitech/pm2) (todos los SO que pueden ejecutar Node.js):
+
+Aplicación recomendable para ejecutar apps de Node.js como este:
+
+>`pm2 start index.js`
+
+o también puede seguir el ejemplo del ecosistema en `mychat-pm2.config.js`
+
+>`pm2 start mychat-pm2.config.js`
+
+- [SystemD](https://wiki.debian.org/es/systemd) (sólo Linux): 
+
+Administrador incluido en varias distribuciones de Linux.
+
+Un ejemplo se encuentra en `mychat.service`. Modifíquelo dependiendo de dónde se ubique Node.js y MyChat
+
+>`cp mychat.service /etc/systemd/system`
+>`systemctl enable --now mychat`
+>`systemctl status mychat`
+
+- [DaemonMaster](https://github.com/TWC-Software/DaemonMaster) (sólo Windows):
+
+Recomendable cuando tienes una máquina con Windows y quieres tener un mejor control de tus servicios.
+
+Cree un servicio, ponga nombre y descripción, ubique la instalación de Node.js y ponga la ruta completa donde se encuentre MyChat en la sección de parámetros (ejemplo `C:\Users\Admin\MyChat\index.js`).
+
+Luego acepte el formulario, haga click derecho en el servicio e inícielo.
+
+Si aún deseas ver la consola, inicia el servicio en tu sesión actual.

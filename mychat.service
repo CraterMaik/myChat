@@ -1,0 +1,14 @@
+#Ejemplo para poner MyChat como servicio via SystemD (sólo Linux)
+#Si tienes Node.js instalado en otra ruta (which node) remplazalo abajo
+[Unit]
+Description=MyChat
+
+[Service]
+#User=root
+ExecStart=/usr/bin/node /home/myChat/index.js
+WorkingDirectory=/home/myChat
+Restart=on-failure
+StartLimitInterval=600
+
+[Install]
+WantedBy=multi-user.target
