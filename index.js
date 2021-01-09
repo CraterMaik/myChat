@@ -1,14 +1,13 @@
+require('dotenv').config()
+
 const express = require('express')
 const app = express()
 const passport = require('passport')
 const { Strategy } = require('passport-discord')
 
-require('dotenv').config()
-
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-const bodyparser = require('body-parser')
 const session = require('express-session')
 
 const path = require('path')
@@ -39,13 +38,12 @@ passport.use(new Strategy({
 }, function (accessToken, refreshToken, profile, done) {
   process.nextTick(function () {
     return done(null, profile)
-
   })
 }))
 
 app
-  .use(bodyparser.json())
-  .use(bodyparser.urlencoded({ extended: true }))
+  .use(express.json())
+  .use(express.urlencoded({ extended: true }))
   .engine("html", require('ejs').renderFile)
   .use(express.static(path.join(__dirname, "/public")))
   .set("views", path.join(__dirname, "views"))
@@ -63,7 +61,8 @@ app
   })
   .use("/", require('./rutas/index'))
 
-  .get('*', function (req, res) { res.send('Error 404!') })
+  .get('*', function (req, res) { res.status(404).send('Error 404!') })
+  .use('*', function (req, res) { res.status(405).send('Método no permitido') })
 
 function validInvs(txt) {
   const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim
@@ -81,7 +80,7 @@ function extractContent(html) {
 }
 
 client.on('ready', () => {
-  console.log('Ready!')
+  console.log('Bot ready!');
 })
 
 io.on('connection', socket => {
@@ -213,7 +212,8 @@ client.on('message', async message => {
 const port = process.env.PORT || 3000
 
 server.listen(port, function () {
-  client.login(process.env.TOKEN_BOT)
+  //login leerá desde DISCORD_TOKEN
+  client.login()
   console.log(`Ready, port ${port}`)
 })
 
@@ -221,3 +221,10 @@ process.on("unhandledRejection", (r) => {
   console.dir(r)
 })
 
+process.on("uncaughtException", (e) => {
+  // Siempre se debe cerrar cuando hay una excepción sin capturar
+  // https://nodejs.org/dist/latest-v12.x/docs/api/process.html#process_warning_using_uncaughtexception_correctly
+  console.dir(e)
+  client.destroy()
+  process.exit(1)
+})

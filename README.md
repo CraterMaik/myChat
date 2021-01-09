@@ -20,7 +20,7 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 > URL="http://localhost:3030" # Esta URL deberá ser configurada en https://discord.dev, ponerlo sin rutas adicionales 
 > ID_CHANNEL_LOG="" # El ID del canal de Discord en donde se envian registros (logs) de la web.
 > ID_CHANNEL="" # El ID del canal de Discord en donde se enviarán y recibirán mensajes. # Adicional: El webhook los envia a el canal donde se estableció.
-> TOKEN_BOT="" # Token del bot de Discord donde MyChat iniciará sesión
+> DISCORD_TOKEN="" # Token del bot de Discord donde MyChat iniciará sesión
 > ```
 
 **2- Ejecutar MyChat**
@@ -38,7 +38,7 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 > node index.js
 > ```
 
-**3- Ejecutar MyChat como servicio**
+**3.0- Ejecutar MyChat como servicio**
 
 De esa manera se mantendrá encendido junto con el sistema sin molestar otras apps o la UI (como la terminal).
 Aqui algunos administradores de servicio:
@@ -72,3 +72,10 @@ Cree un servicio, ponga nombre y descripción, ubique la instalación de Node.js
 Luego acepte el formulario, haga click derecho en el servicio e inícielo.
 
 Si aún deseas ver la consola, inicia el servicio en tu sesión actual.
+
+**3.1- Ejecutar MyChat en un contenedor (Docker)**
+
+Si no quieres molestarte en instalar Node.js o los paquetes, y tienes Docker, una vez hecho el paso 2 realizar estos 2 comandos:
+
+>`docker build --tag cratermaik/mychat .`
+>`docker run -p 3030:3030 cratermaik/mychat`
