@@ -39,6 +39,7 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 > ```
 
 **3- Ejecutar MyChat como servicio**
+
 De esa manera se mantendrá encendido junto con el sistema sin molestar otras apps o la UI (como la terminal).
 Aqui algunos administradores de servicio:
 
