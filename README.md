@@ -43,18 +43,32 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 De esa manera se mantendrá encendido junto con el sistema sin molestar otras apps o la UI (como la terminal).
 Aqui algunos administradores de servicio:
 
-- [PM2](https://github.com/Unitech/pm2) (todos los SO que pueden ejecutar Node.js): Aplicación recomendable para ejecutar apps de Node.js como este:
-`pm2 start index.js`
+- [PM2](https://github.com/Unitech/pm2) (todos los SO que pueden ejecutar Node.js):
+
+Aplicación recomendable para ejecutar apps de Node.js como este:
+
+>`pm2 start index.js`
+
 o también puede seguir el ejemplo del ecosistema en `mychat-pm2.config.js`
-`pm2 start mychat-pm2.config.js`
 
-- [SystemD](https://wiki.debian.org/es/systemd) (sólo Linux): Administrador incluido en varias distribuciones de Linux
+>`pm2 start mychat-pm2.config.js`
+
+- [SystemD](https://wiki.debian.org/es/systemd) (sólo Linux): 
+
+Administrador incluido en varias distribuciones de Linux.
+
 Un ejemplo se encuentra en `mychat.service`. Modifíquelo dependiendo de dónde se ubique Node.js y MyChat
-`cp mychat.service /etc/systemd/system`
-`systemctl enable --now mychat`
-`systemctl status mychat`
 
-- [DaemonMaster](https://github.com/TWC-Software/DaemonMaster) (sólo Windows): Recomendable cuando tienes una máquina con Windows y quieres tener un mejor control de tus servicios.
-Cree un servicio, ponga nombre y descripción, ubique la instalación de Node.js y ponga la ruta completa donde se encuentre MyChat en la sección de parámetros (ejemplo `C:\Users\Admin\MyChat\index.js`)
+>`cp mychat.service /etc/systemd/system`
+>`systemctl enable --now mychat`
+>`systemctl status mychat`
+
+- [DaemonMaster](https://github.com/TWC-Software/DaemonMaster) (sólo Windows):
+
+Recomendable cuando tienes una máquina con Windows y quieres tener un mejor control de tus servicios.
+
+Cree un servicio, ponga nombre y descripción, ubique la instalación de Node.js y ponga la ruta completa donde se encuentre MyChat en la sección de parámetros (ejemplo `C:\Users\Admin\MyChat\index.js`).
+
 Luego acepte el formulario, haga click derecho en el servicio e inícielo.
+
 Si aún deseas ver la consola, inicia el servicio en tu sesión actual.
