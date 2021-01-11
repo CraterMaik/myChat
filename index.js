@@ -88,12 +88,13 @@ io.on('connection', socket => {
     if (validInvs(data.content)) {
       data.content = `**${data.username}** invalid link.`
     }
+    const channel = client.channels.resolve(process.env.ID_CHANNEL)
     const body = JSON.stringify({
       allowed_mentions: {
         parse: []
       },
       content: data.content,
-      username: data.username,
+      username: channel ? channel.guild.member(data.id).displayName : data.username,
       avatar_url: data.avatarURL
     })
 
