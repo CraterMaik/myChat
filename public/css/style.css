@@ -70,7 +70,8 @@ img:hover {
 
 }
 
-.rowMain .rowIcons .iconsContent .body-iconsContent:hover img {
+.rowMain .rowIcons .iconsContent .body-iconsContent:hover img,
+.rowMain .rowIcons .iconsContent .body-iconsContent:hover .no-icon {
   border-radius: 20% !important;
   transition: .4s;
 
@@ -102,10 +103,19 @@ img:hover {
   border-radius: 25% !important;
 }
 
-.rowMain .rowIcons .iconsContent .body-iconsContent img {
+.rowMain .rowIcons .iconsContent .body-iconsContent img,
+.rowMain .rowIcons .iconsContent .body-iconsContent:hover .no-icon {
   width: 46px;
   border-radius: 50%;
+}
 
+.rowMain .rowIcons .iconsContent .body-iconsContent:hover .no-icon {
+  height: 46px;
+  display: flex;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  background-color: #36393f;
 }
 
 .rowMain .rowIcons .iconsContent {

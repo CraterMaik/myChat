@@ -16,14 +16,16 @@
                 </a>
               </div>
               <div class="separador-iconsContent"></div>
-              <div class="body-iconsContent ">
+              <div class="body-iconsContent">
                 <a href="#">
-                  <div class="select-iconContent">
-                  </div>
-                  <img src="<%= channel.guild.iconURL({dynamic: true})%>" alt="<%=channel.guild.name%>">
+                  <div class="select-iconContent"></div>
+                  <% if (channel.guild.icon) { %>
+                  <img src="<%= channel.guild.iconURL({ dynamic: true }) %>" alt="<%= channel.guild.name %>">
+                  <% } else { %>
+                  <div class="no-icon"><%= channel.guild.name.charAt(0).toUpperCase() %></div>
+                  <% } %>
                 </a>
               </div>
-
             </div>
           </div>
           <div class="col rowOptions">
