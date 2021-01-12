@@ -61,8 +61,8 @@ app
   })
   .use("/", require('./rutas/index'))
 
-  .get('*', function (req, res) { res.status(404).send(__dirname + '/views/404.html') })
-  .use('*', function (req, res) { res.status(405).send(__dirname + '/views/405.html') })
+  .get('*', function (req, res) { res.status(404).sendFile(__dirname + '/views/404.html') })
+  .use('*', function (req, res) { res.status(405).sendFile(__dirname + '/views/405.html') })
 
 function validInvs(txt) {
   const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim
