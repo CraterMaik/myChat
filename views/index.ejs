@@ -1,128 +1,141 @@
 <%- include("partials/header.ejs") %>
-<!-- para incluir más scripts -->
-</head>
-<body>
-  <div id="iduser" data-test=<%= user.id %>></div>
-  <div class="divMain">
-    <div class="rowMain">
-      <div class="row">
-        <div class="rowContentOne">
-          <div class="col rowIcons">
-            <div class="iconsContent">
-              <div class="header-iconsContent">
-                <a href="#">
-                  <img src="https://cdn.discordapp.com/attachments/776566660315349012/779467014355419146/aqq.png"
-                    alt="Discord icon" class="circle">
-                </a>
-              </div>
-              <div class="separador-iconsContent"></div>
-              <div class="body-iconsContent">
-                <a href="#">
-                  <div class="select-iconContent"></div>
-                  <% if (channel.guild.icon) { %>
-                  <img src="<%= channel.guild.iconURL({ dynamic: true }) %>" alt="<%= channel.guild.name %>">
-                  <% } else { %>
-                  <div class="no-icon"><%= channel.guild.name.charAt(0).toUpperCase() %></div>
-                  <% } %>
-                </a>
+  <!-- para incluir más scripts -->
+  </head>
+
+  <body>
+    <div id="iduser" data-test=<%=user.id %>></div>
+    <div class="divMain">
+      <div class="rowMain">
+        <div class="row">
+          <div class="rowContentOne">
+            <div class="col rowIcons">
+              <div class="iconsContent">
+                <div class="header-iconsContent">
+                  <a href="#">
+                    <img src="https://cdn.discordapp.com/attachments/776566660315349012/779467014355419146/aqq.png"
+                      alt="Discord icon" class="circle">
+                  </a>
+                </div>
+                <div class="separador-iconsContent"></div>
+                <div class="body-iconsContent">
+                  <a href="#">
+                    <div class="select-iconContent"></div>
+                    <% if (channel.guild.icon) { %>
+                      <img src="<%= channel.guild.iconURL({ dynamic: true }) %>" alt="<%= channel.guild.name %>">
+                      <% } else { %>
+                        <div class="no-icon">
+                          <%= channel.guild.name.charAt(0).toUpperCase() %>
+                        </div>
+                        <% } %>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col rowOptions">
+            <div class="col rowOptions">
 
-            <div class="optiontsContent">
-              <div class="header-optionsContent">
-                <span class="title_server"> <%=channel.guild.name%> </span> 
-                <a href="/salir"><i class="material-icons i-arrow-server">exit_to_app</i></a>
-              </div>
-              <div class="body-optionsContent">
-                <div class="category-body-optionsContent">
-                  <div class="nameCategory-body-optionsContent">
-                    <div class="category-name">
-                      <i class="tiny material-icons">keyboard_arrow_down</i>
-                      <span><%= channel.parent.name %></span>
+              <div class="optiontsContent">
+                <div class="header-optionsContent">
+                  <span class="title_server">
+                    <%=channel.guild.name%>
+                  </span>
+                  <a href="/salir"><i class="material-icons i-arrow-server">exit_to_app</i></a>
+                </div>
+                <div class="body-optionsContent">
+                  <div class="category-body-optionsContent">
+                    <div class="nameCategory-body-optionsContent">
+                      <div class="category-name">
+                        <i class="tiny material-icons">keyboard_arrow_down</i>
+                        <span>
+                          <%= channel.parent.name %>
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  <div class="channels-body-optionsContent">
+                    <div class="nameChannel-body-optionsContent info">
+                      # <%=channel.name%>
+                    </div>
+                  </div>
+
                 </div>
-                <div class="channels-body-optionsContent">
-                  <div class="nameChannel-body-optionsContent info">
-                    # <%=channel.name%>
+                <div class="profile-body-optionContent">
+                  <div class="profile-content">
+                    <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png"
+                      alt="Avatar <%=user.username%>" width="39" height="39" class="circle img-url">
+
+                    <span class="profile-username-footer">
+                      <%=user.username%>
+                    </span>
+                    <!-- <span class="profile-discrim-footer">#<%=user.discriminator%></span> -->
+                    <span class="profile-footer-icons">
+                      <i class="material-icons">mic</i>
+                      <i class="material-icons">headset</i>
+                      <i class="material-icons">settings</i>
+                    </span>
+
                   </div>
                 </div>
-
               </div>
-              <div class="profile-body-optionContent">
-                <div class="profile-content">
-                  <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png"
-                    alt="Avatar <%=user.username%>" width="39" height="39" class="circle img-url">
-
-                  <span class="profile-username-footer"><%=user.username%></span>
-                  <!-- <span class="profile-discrim-footer">#<%=user.discriminator%></span> -->
-                  <span class="profile-footer-icons">
-                    <i class="material-icons">mic</i>
-                    <i class="material-icons">headset</i>
-                    <i class="material-icons">settings</i>
+            </div>
+          </div>
+          <div class="rowContentTwo">
+            <div class="col rowAreatext" style="width: 100%;">
+              <div class="areatextContent">
+                <div class="header-areatextContent">
+                  <span id="areatextTitle"><img src="https://cdn.discordapp.com/emojis/770766735178989569.png"
+                      alt="channel ico" width="23" style="opacity: 0.7; margin: 0 10px 0 0;">
+                    <%=channel.name%>
                   </span>
-
+                  <span class="areatextTitleDesc">
+                    <% if(channel.topic) {%>
+                      <%=channel.topic%>
+                        <% } %>
+                  </span>
+                  <span class="areatextTitleIcon">
+                    <svg x="0" y="0" class="icon-22AiRD" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24"
+                      fill="none">
+                      <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
+                        d="M18 9V14C18 15.657 19.344 17 21 17V18H3V17C4.656 17 6 15.657 6 14V9C6 5.686 8.686 3 12 3C15.314 3 18 5.686 18 9ZM11.9999 21C10.5239 21 9.24793 20.19 8.55493 19H15.4449C14.7519 20.19 13.4759 21 11.9999 21Z"
+                        style="color: #b9bbbe;"></path>
+                    </svg>
+                    <img src="https://cdn.discordapp.com/emojis/658538492548218890.png" alt="pin ico" width="23">
+                    <img src="https://cdn.discordapp.com/emojis/658538493470965787.png?v=1" alt="pin ico" width="23">
+                  </span>
+                </div>
+                <div class="body-areatextContent">
+                  <section style="height: 80vh;">
+                    <ul class="collection messages" id="boxChat">
+                      <% messages.forEach((message)=> { %>
+                        <%- include("partials/message.ejs", { message }) %>
+                          <% }) %>
+                    </ul>
+                  </section>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="rowContentTwo">
-          <div class="col rowAreatext" style="width: 100%;">
-            <div class="areatextContent">
-              <div class="header-areatextContent">
-                <span id="areatextTitle"><img src="https://cdn.discordapp.com/emojis/770766735178989569.png"
-                    alt="channel ico" width="23" style="opacity: 0.7; margin: 0 10px 0 0;"> <%=channel.name%></span>
-                <span class="areatextTitleDesc">
-                  <% if(channel.topic) {%>
-                  <%=channel.topic%>
-                  <% } %>
-                </span>
-                <span class="areatextTitleIcon">
-                  <svg x="0" y="0" class="icon-22AiRD" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none">
-                    <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
-                      d="M18 9V14C18 15.657 19.344 17 21 17V18H3V17C4.656 17 6 15.657 6 14V9C6 5.686 8.686 3 12 3C15.314 3 18 5.686 18 9ZM11.9999 21C10.5239 21 9.24793 20.19 8.55493 19H15.4449C14.7519 20.19 13.4759 21 11.9999 21Z"
-                      style="color: #b9bbbe;"></path>
-                  </svg>
-                  <img src="https://cdn.discordapp.com/emojis/658538492548218890.png" alt="pin ico" width="23">
-                  <img src="https://cdn.discordapp.com/emojis/658538493470965787.png?v=1" alt="pin ico" width="23">
-                </span>
-              </div>
-              <div class="body-areatextContent">
-                <section style="height: 80vh;">
-                  <ul class="collection messages" id="boxChat">
+          <div class="rowContentThree">
+            <div class="chatArea-body">
 
-                  </ul>
-                </section>
+              <input autocomplete="off" class="inputMSG" type="text" id="msg_input"
+                placeholder="Enviar mensaje a #<%=channel.name%>" required>
+
+            </div>
+          </div>
+          <div class="rowModalImage">
+            <div class="body-modal">
+              <div>
+                <img src="" alt="" width="1000" height="600">
+              </div>
+
+              <div class="right">
+                <p>cerrar</p>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="rowContentThree">
-          <div class="chatArea-body">
-
-            <input autocomplete="off" class="inputMSG" type="text" id="msg_input"
-              placeholder="Enviar mensaje a #<%=channel.name%>" required>
 
           </div>
-        </div>
-        <div class="rowModalImage">
-          <div class="body-modal">
-            <div>
-              <img src="" alt="" width="1000" height="600">
-            </div>
-
-            <div class="right">
-              <p>cerrar</p>
-            </div>
-          </div>
-
         </div>
       </div>
-    </div>
 
-  </div>
-<%- include("partials/footer.ejs") %>
+    </div>
+    <%- include("partials/footer.ejs") %>
