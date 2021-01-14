@@ -145,7 +145,8 @@ io.on('connection', socket => {
   })
 
   socket.on('disconnect', async function () {
-    let user = await client.users.fetch(socket.userId)
+    let user = await client.users.fetch(socket.userId).catch(() => {});
+    if(!user) return;
     let bodyWH = JSON.stringify({
       allowed_mentions: {
         parse: []

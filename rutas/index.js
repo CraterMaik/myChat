@@ -3,16 +3,25 @@ const router = express.Router();
 const passport = require('passport');
 const CheckAuth = require('../auth');
 
-router.get('/', CheckAuth, function (req, res) {
+router.get('/', CheckAuth, async function (req, res) {
   let avatarURL = `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`
-  let channel = req.client.channels.resolve(process.env.ID_CHANNEL)
-
+  let channel = await req.client.channels.fetch(process.env.ID_CHANNEL)
+  if(!channel) return res.status(500).send("Canal inválido.<br>Por favor corriga ID_CHANNEL con la ID del canal correcta.");
+  let pre_messages = await channel.messages.fetch();
+  let messages = pre_messages.filter(e => !e.author.bot).map(message => {
+    return {
+      username: message.author ? message.author.username : "Deleted User",
+      content: message.content,
+      avatar: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+      highRoleColor: message.member ? message.member.roles.color.hexColor : "#FFF"
+    }
+  }).reverse();
   res.render("index.ejs", {
     user: req.user,
     avatarURL: avatarURL,
-    channel: channel
-  })
-
+    channel: channel,
+    messages
+  });
 })
   .get('/login', function (req, res, next) {
     if (req.query.error === "access_denied") return res.status(403).send("Primero debe iniciar sesión en Discord.<br><a href='/'>Click</a> para volver a intentarlo");
