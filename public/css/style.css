@@ -325,7 +325,7 @@ img:hover {
   color: #979a9d;
 }
 .rowMain .rowAreatext .areatextContent .header-areatextContent .areatextTitleIcon {
-  margin: 0 auto;
+  margin-left: 30vh;
   letter-spacing: 10px;
   
 }
