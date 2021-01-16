@@ -402,6 +402,34 @@ img:hover {
 
 }
 
+/* scrool */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #202225;
+  border: 0px none #ffffff;
+  border-radius: 73px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2f3138;
+  border: 0px none #ffffff;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
 @media only screen and (max-width: 1024px) {
   .content-body-title p {
     font-size: 12px;
