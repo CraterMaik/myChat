@@ -6,9 +6,9 @@ const CheckAuth = require('../auth');
 router.get('/', CheckAuth, async function (req, res) {
   let avatarURL = `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`
   let channel = await req.client.channels.fetch(process.env.ID_CHANNEL)
-  if(!channel) return res.status(500).send("Canal inválido.<br>Por favor corriga ID_CHANNEL con la ID del canal correcta.");
+  if (!channel) return res.status(500).send("Canal inválido.<br>Por favor corriga ID_CHANNEL con la ID del canal correcta.");
   let pre_messages = await channel.messages.fetch();
-  let messages = pre_messages.filter(e => !e.author.bot).map(message => {
+  let messages = pre_messages.map(message => {
     return {
       username: message.author ? message.author.username : "Deleted User",
       content: message.content,
