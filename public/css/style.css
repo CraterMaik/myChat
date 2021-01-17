@@ -470,14 +470,20 @@ img:hover {
   position: fixed;
   background-color: #36393e;
   width: 100%;
-  top: 88%;
+  top: 85.6%;
   left: 330px;
   height: 120px;
 }
 
 .rowMain .rowContentThree .chatArea-body {
+  position: relative;
   padding: 15px 0px;
   width: 71%;
+}
+.rowMain .rowContentThree .typingArea {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 .rowMain .rowContentThree .inputMSG {
   background-color: #40444b;

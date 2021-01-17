@@ -1,6 +1,7 @@
 $(function () {
   let $window = $(window)
   let avatarURL = $(".img-url").attr("src")
+  let typingArea = $(".typingArea")
   let userName = $('.profile-username-footer').text()
   let idSaveLocal = ''
   let idLastMessage = ''
@@ -36,9 +37,24 @@ $(function () {
     $('.messages li:last-child p .d-emoji').each(function (e) {
       $(this).addClass("d-emoji-only")
     })
-
   }
 
+  function getTypingIndicatorIndex(text='') {
+    return text.indexOf('está') !== -1 ? text.indexOf('está') : (text.indexOf('están') !== -1 ? text.indexOf('están') : 0)
+  }
+
+  socket.on("typingStart", (data) => {
+    console.log('escribiendo')
+    const currentText = typingArea.text()
+    const typingIndicatorIndex = getTypingIndicatorIndex(currentText);
+    typingArea.text(currentText.length > 1 ?
+      currentText.replace(/está(?:n?)/gm, `, ${data.user.username} están`)/* ([currentText.slice(typingIndicatorIndex, typingIndicatorIndex-2), `, ${data.user.username}`, currentText.slice(typingIndicatorIndex-2)].join('')) */ :
+      `${data.user.username} está escribiendo...`)
+
+    setTimeout(() => typingArea.text(
+      currentText.replace(`${data.user.username}`, ' ')
+    ), 4000)
+  })
   socket.on("new message", (data) => {
     msgTemplate(data)
     emoji_animated()

@@ -79,7 +79,7 @@ function extractContent(html) {
   }
 }
 
-client.on('ready', () => {
+client.on('ready', async() => {
   console.log('Bot ready!');
 })
 
@@ -212,6 +212,22 @@ client.on('message', async message => {
   io.emit('new message', dataMSG)
 })
 
+client.on('typingStart', async(channel, user) => {
+  if(channel.id !== process.env.ID_CHANNEL) return;
+  if(user.bot) return;
+
+  io.emit('typingStart', {
+    channel: {
+      id: channel.id,
+    },
+    user: {
+      id: user.id,
+      tag: `${user.username}#${user.discriminator}`,
+      username: user.username,
+      avatarURL: user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }),
+    }
+  })
+})
 const port = process.env.PORT || 3000
 
 server.listen(port, function () {
