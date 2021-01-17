@@ -112,13 +112,13 @@ $(function () {
                 ${md.render(data.content)}`)
 
     if (lastMessage.id === data.id && lastMessage.author === data.author) {
-      $messageDiv = $('<li class="collection-item item-chat" id="msg-el"/>')
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item item-chat" id="msg-el"/>`)
         .append($divUserTwo)
 
     } else {
       lastMessage.id = data.id;
       lastMessage.author = data.author;
-      $messageDiv = $('<li class="collection-item avatar"/>')
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item avatar"/>`)
         .append($imgAvatar, $divUser)
 
     }
@@ -137,13 +137,13 @@ $(function () {
     $imgAvatar = $(`<img src="${data.avatarURL}" alt="${data.author}-avatar" class="circle">`)
 
     if (lastMessage.id === data.id && lastMessage.author === data.author) {
-      $messageDiv = $('<li class="collection-item item-chat" id="msg-el" />')
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item item-chat" id="msg-el" />`)
         .append($divUserTwo)
 
     } else {
       lastMessage.id = data.id;
       lastMessage.author = data.author;
-      $messageDiv = $('<li class="collection-item avatar"/>')
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item avatar"/>`)
         .append($imgAvatar, $divUser)
 
     }

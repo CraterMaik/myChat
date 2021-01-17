@@ -44,6 +44,7 @@ function processFrontEndMessage(client, message) {
         author: message.member ? message.member.displayName : message.author.username,
         avatarURL: message.author.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }),
         id: message.author.id,
+        messageID: message.id,
         date: message.createdAt.toLocaleDateString('es-ES'),
         colorName: message.member ? message.member.displayHexColor : "#FFFFFF",
         attachmentURL: message.attachments.first() && message.attachments.first().height !== null ? message.attachments.first().attachment : null
