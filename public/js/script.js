@@ -116,10 +116,9 @@ $(function () {
   function renderMessage(data, options) {
     options = options || {}
     let $messageDiv = ''
-
     $imgAvatar = $(`<img src="${data.avatarURL}" alt="${data.username}-avatar" class="circle">`)
     $divUserTwo = md.render(data.content)
-    $divUser = $(`<span class="title" style="color: white">${data.username}</span>
+    $divUser = $(`<span class="title" style="color: ${data.userColor}">${data.username}</span>
                 ${md.render(data.content)}`)
 
     if (idLastMessage === data.id) {

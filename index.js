@@ -111,7 +111,8 @@ io.on('connection', socket => {
       id: data.id,
       content: data.content,
       username: data.username,
-      avatarURL: data.avatarURL
+      avatarURL: data.avatarURL,
+      userColor: member ? member.displayHexColor : 'white'
     })
   })
 
