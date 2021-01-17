@@ -1,5 +1,6 @@
 <%- include("partials/header.ejs") %>
-  <!-- para incluir más scripts -->
+  <meta name="csrf-token" content="<%= key %>">
+  <meta name="first-last-message" content="<%= lastMessage %>">
   </head>
 
   <body>
@@ -60,7 +61,7 @@
                 </div>
                 <div class="profile-body-optionContent">
                   <div class="profile-content">
-                    <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png"
+                    <img src="https://cdn.discordapp.com<%= user.avatar ? '' : "/embed" %>/avatars<%= user.avatar ? '/' + user.id : '' %>/<%= user.avatar || user.discriminator % 5 %>.png"
                       alt="Avatar <%=user.username%>" width="39" height="39" class="circle img-url">
 
                     <span class="profile-username-footer">
@@ -103,11 +104,11 @@
                   </span>
                 </div>
                 <div class="body-areatextContent">
-                  <section style="height: 80vh;">
+                  <section style="height: 76vh;">
                     <ul class="collection messages" id="boxChat">
                       <% messages.forEach((message)=> { %>
                         <%- include("partials/message.ejs", { message }) %>
-                          <% }) %>
+                      <% }) %>
                     </ul>
                   </section>
                 </div>

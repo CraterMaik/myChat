@@ -1,4 +1,8 @@
-<li class="collection-item avatar">
-    <img src="<%= message.avatar %>" alt="<%= message.username %>-avatar" class="circle"><span class="title" style="color: <%= message.highRoleColor %>"><%= message.username %></span>
-    <p><%= message.content %></p>
+<li id="<%= message.messageID %>" class="collection-item avatar" style>
+    <img src="<%= message.avatarURL %>" alt="<%= message.author %>-avatar" class="circle"><span class="title" style="color: <%= message.colorName %>"><%= message.author %></span>
+    <% if(message.attachmentURL) { %>
+        <p><%- message.content %><<%= message.attachmentURL.endsWith('.mp4') ? 'video controls' : 'img' %> class="img-content" src="<%= message.attachmentURL %>"/></p>
+    <% } else { %>
+        <p><%- message.content %></p>
+    <% } %>
 </li>

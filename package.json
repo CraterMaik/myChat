@@ -14,6 +14,7 @@
   "author": "CraterMaik",
   "license": "MIT",
   "dependencies": {
+    "csurf": "^1.11.0",
     "discord-markdown": "^2.4.1",
     "discord.js": "^12.5.0",
     "dotenv": "^8.2.0",
@@ -23,7 +24,6 @@
     "express-session": "^1.17.1",
     "markdown-to-text-emoji": "^1.1.0",
     "node-emoji": "^1.10.0",
-    "node-fetch": "^2.6.1",
     "passport": "^0.4.1",
     "passport-discord": "^0.1.4",
     "socket.io": "^3.0.3"

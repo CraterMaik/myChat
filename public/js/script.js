@@ -1,19 +1,17 @@
 $(function () {
+  const key = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   let $window = $(window)
-  let avatarURL = $(".img-url").attr("src")
   let typingArea = $(".typingArea")
-  let userName = $('.profile-username-footer').text()
   let idSaveLocal = ''
-  let idLastMessage = ''
+  let lastMessage = JSON.parse(document.querySelector('meta[name="first-last-message"]').getAttribute('content'));
 
   const socket = io()
 
   $inputMessage = $('.inputMSG')
   $inputMessage.focus()
   $messages = $('.messages')
-  let iduser = document.getElementById('iduser').dataset.test
 
-  socket.emit('join', iduser)
+  socket.emit('join', key)
   let md = window.markdownit().use(window.markdownitEmoji)
   md.renderer.rules.emoji = function (token, idx) {
     return `<i class="twa twa-3x twa-${token[idx].markup}"></i>`
@@ -39,12 +37,11 @@ $(function () {
     })
   }
 
-  function getTypingIndicatorIndex(text='') {
+  function getTypingIndicatorIndex(text = '') {
     return text.indexOf('está') !== -1 ? text.indexOf('está') : (text.indexOf('están') !== -1 ? text.indexOf('están') : 0)
   }
 
   socket.on("typingStart", (data) => {
-    console.log('escribiendo')
     const currentText = typingArea.text()
     const typingIndicatorIndex = getTypingIndicatorIndex(currentText);
     typingArea.text(currentText.length > 1 ?
@@ -101,15 +98,8 @@ $(function () {
     let addMgs = $inputMessage.val()
     addMsg = clearInput(addMgs)
     if (addMsg) {
-      $inputMessage.val('')
-      const data = {
-        id: iduser,
-        content: addMsg,
-        avatarURL: avatarURL,
-        username: userName
-      }
-      renderMessage(data)
-      socket.emit('add message', data)
+      $inputMessage.val('');
+      socket.emit('add message', key, addMsg);
     }
   }
 
@@ -121,13 +111,14 @@ $(function () {
     $divUser = $(`<span class="title" style="color: ${data.userColor}">${data.username}</span>
                 ${md.render(data.content)}`)
 
-    if (idLastMessage === data.id) {
-      $messageDiv = $('<li class="collection-item item-chat" id="msg-el"/>')
+    if (lastMessage.id === data.id && lastMessage.author === data.author) {
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item item-chat" id="msg-el"/>`)
         .append($divUserTwo)
 
     } else {
-      idLastMessage = data.id
-      $messageDiv = $('<li class="collection-item avatar"/>')
+      lastMessage.id = data.id;
+      lastMessage.author = data.author;
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item avatar"/>`)
         .append($imgAvatar, $divUser)
 
     }
@@ -145,13 +136,14 @@ $(function () {
     }
     $imgAvatar = $(`<img src="${data.avatarURL}" alt="${data.author}-avatar" class="circle">`)
 
-    if (idLastMessage === data.id) {
-      $messageDiv = $('<li class="collection-item item-chat" id="msg-el" />')
+    if (lastMessage.id === data.id && lastMessage.author === data.author) {
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item item-chat" id="msg-el" />`)
         .append($divUserTwo)
 
     } else {
-      idLastMessage = data.id
-      $messageDiv = $('<li class="collection-item avatar"/>')
+      lastMessage.id = data.id;
+      lastMessage.author = data.author;
+      $messageDiv = $(`<li id=${data.messageID} class="collection-item avatar"/>`)
         .append($imgAvatar, $divUser)
 
     }
