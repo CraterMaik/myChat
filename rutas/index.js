@@ -13,7 +13,8 @@ router.get('/', CheckAuth, async function (req, res) {
       username: message.author ? message.author.username : "Deleted User",
       content: message.content,
       avatar: message.author.displayAvatarURL({ format: "png", dynamic: true }),
-      highRoleColor: (message.member && message.member.roles.highest) ? message.member.roles.highest.hexColor : "#FFF"
+      highRoleColor: (message.member && message.member.roles.color) ? message.member.roles.color.hexColor : "#FFF"
+      
     }
   }).reverse();
   res.render("index.ejs", {
