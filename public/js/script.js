@@ -1,4 +1,10 @@
 $(function () {
+  window.addEventListener("pageshow", function (event) {
+    const historyTraversal = event.persisted || (typeof performance != "undefined" && performance.navigation.type === 2);
+    if (historyTraversal) {
+      location.reload();
+    }
+  });
   const key = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   let $window = $(window)
   let typingArea = $(".typingArea")
@@ -158,5 +164,5 @@ $(function () {
     if (event.which === 13) {
       addMessage()
     }
-  })
+  });
 })

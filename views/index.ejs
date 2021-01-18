@@ -22,11 +22,11 @@
                   <a href="#">
                     <div class="select-iconContent"></div>
                     <% if (channel.guild.icon) { %>
-                      <img src="<%= channel.guild.iconURL({ dynamic: true }) %>" alt="<%= channel.guild.name %>">
-                      <% } else { %>
-                        <div class="no-icon">
-                          <%= channel.guild.name.charAt(0).toUpperCase() %>
-                        </div>
+                      <img src="<%= channel.guild.iconURL({ dynamic: true, format: "png" }) %>" alt="<%= channel.guild.name %>">
+                        <% } else { %>
+                          <div class="no-icon">
+                            <%= channel.guild.name.charAt(0).toUpperCase() %>
+                          </div>
                         <% } %>
                   </a>
                 </div>
@@ -42,27 +42,31 @@
                   <a href="/salir"><i class="material-icons i-arrow-server">exit_to_app</i></a>
                 </div>
                 <div class="body-optionsContent">
-                  <div class="category-body-optionsContent">
-                    <div class="nameCategory-body-optionsContent">
-                      <div class="category-name">
-                        <i class="tiny material-icons">keyboard_arrow_down</i>
-                        <span>
-                          <%= channel.parent.name %>
-                        </span>
+                  <% if(channel.parent) { %>
+                    <div class="category-body-optionsContent">
+                      <div class="nameCategory-body-optionsContent">
+                        <div class="category-name">
+                          <i class="tiny material-icons">keyboard_arrow_down</i>
+                          <span>
+                            <%= channel.parent.name %>
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="channels-body-optionsContent">
-                    <div class="nameChannel-body-optionsContent info">
-                      # <%=channel.name%>
+                    <% } else { %>
+                      <br>
+                    <% } %>
+                    <div class="channels-body-optionsContent">
+                      <div class="nameChannel-body-optionsContent info">
+                        # <%=channel.name%>
+                      </div>
                     </div>
-                  </div>
 
                 </div>
                 <div class="profile-body-optionContent">
                   <div class="profile-content">
-                    <img src="https://cdn.discordapp.com<%= user.avatar ? '' : "/embed" %>/avatars<%= user.avatar ? '/' + user.id : '' %>/<%= user.avatar || user.discriminator % 5 %>.png"
-                      alt="Avatar <%=user.username%>" width="39" height="39" class="circle img-url">
+                    <img src="<%= avatarURL %>" alt="Avatar <%=user.username%>" width="39" height="39"
+                      class="circle img-url">
 
                     <span class="profile-username-footer">
                       <%=user.username%>
@@ -88,9 +92,9 @@
                     <%=channel.name%>
                   </span>
                   <span class="areatextTitleDesc">
-                    <% if(channel.topic) {%>
-                      <%=channel.topic%>
-                        <% } %>
+                    <% if(channel.topic) { %>
+                      <%= channel.topic %>
+                    <% } %>
                   </span>
                   <span class="areatextTitleIcon">
                     <svg x="0" y="0" class="icon-22AiRD" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24"
@@ -100,7 +104,7 @@
                         style="color: #b9bbbe;"></path>
                     </svg>
                     <img src="https://cdn.discordapp.com/emojis/658538492548218890.png" alt="pin ico" width="23">
-                    <img src="https://cdn.discordapp.com/emojis/658538493470965787.png?v=1" alt="pin ico" width="23">
+                    <img src="https://cdn.discordapp.com/emojis/658538493470965787.png" alt="pin ico" width="23">
                   </span>
                 </div>
                 <div class="body-areatextContent">
@@ -139,4 +143,4 @@
       </div>
 
     </div>
-    <%- include("partials/footer.ejs") %>
+<%- include("partials/footer.ejs") %>
