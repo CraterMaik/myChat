@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const CheckAuth = require('../auth');
 const { processFrontEndMessage } = require("../renderMessage.js");
-const blacklist = process.env.BLACKLIST.split(",");
+const blacklist = process.env.BLACKLIST ? process.env.BLACKLIST.split(",") : [];
 router.get('/', CheckAuth, async function (req, res) {
   try {
     if(blacklist.includes(req.user.id)) return res.status(403).send("Usted no está autorizado a usar myChat.");
@@ -11,7 +11,7 @@ router.get('/', CheckAuth, async function (req, res) {
     const avatarURL = user.displayAvatarURL({ format: "png", dynamic: true, size: 1024 });
     const channel = await req.client.channels.fetch(process.env.ID_CHANNEL).catch(() => { });
     if (!channel) return res.status(500).send("Canal inválido.<br>Por favor corriga ID_CHANNEL con la ID del canal correcta.");
-    if(process.env.GUILDONLY) {
+    if(process.env.GUILDONLY === "true") {
       const member = await channel.guild.members.fetch(req.user.id).catch(() => {});
       if(!member) return res.status(403).send("No eres parte de " + channel.guild.name + "<br>No estás autorizado a usar myChat.");
     }
