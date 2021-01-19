@@ -1,5 +1,5 @@
 <%- include("partials/header.ejs") %>
-  <meta name="csrf-token" content="<%= key %>">
+  <meta name="app-token" content="<%= key %>">
   <meta name="first-last-message" content="<%= lastMessage %>">
   </head>
 
@@ -125,6 +125,7 @@
                 placeholder="Enviar mensaje a #<%=channel.name%>" required>
 
               <div class="typingArea"></div>
+              <div id="cooldownArea" class="cooldownArea"><%= channel.rateLimitPerUser ? "El modo lento está activado" : "" %></div>
             </div>
           </div>
           <div class="rowModalImage">

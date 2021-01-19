@@ -485,6 +485,11 @@ img:hover {
   bottom: 0;
   left: 0;
 }
+.rowMain .rowContentThree .cooldownArea {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 .rowMain .rowContentThree .inputMSG {
   background-color: #40444b;
   padding: 0 20px;

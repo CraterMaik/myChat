@@ -5,9 +5,10 @@ $(function () {
       location.reload();
     }
   });
-  const key = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  const key = document.querySelector('meta[name="app-token"]').getAttribute('content');
   let $window = $(window)
   let typingArea = $(".typingArea")
+  const cooldownArea = document.getElementById("cooldownArea");
   let idSaveLocal = ''
   let lastMessage = JSON.parse(document.querySelector('meta[name="first-last-message"]').getAttribute('content'));
 
@@ -69,7 +70,29 @@ $(function () {
 
   socket.on('add message', function (data) {
     renderMessage(data)
-  })
+  });
+  socket.on("cooldown", async function (remaining, cooldown) {
+    if(!cooldown) return;
+    if(!remaining) {
+      cooldownArea.innerText = moment.duration(cooldown, "seconds").format("h:mm:ss", { trim: false });
+      let e = Number(cooldown);
+      var interval = setInterval(() => {
+        if(e == 0) {
+          cooldownArea.innerText = "El modo lento está activado";
+          return clearInterval(interval);
+        }
+        e--;
+        cooldownArea.innerText = moment.duration(e, "seconds").format("h:mm:ss", { trim: false });
+      }, 1000);
+      return;
+    }
+    for(let i = 0; i < 3; i++) {
+      cooldownArea.style.color = "#FF2727";
+      await new Promise((s) => setTimeout(s, 100));
+      cooldownArea.style.color = "#FFFFFF"
+      await new Promise((s) => setTimeout(s, 100));
+    }
+  });
 
   function clearInput(msg) {
     return $('<div/>').text(msg).text()

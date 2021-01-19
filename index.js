@@ -72,8 +72,15 @@ io.on('connection', socket => {
   socket.on('add message', async function (key, pre_content) {
     if (!someKeys.has(key)) return;
     const channel = await client.channels.fetch(process.env.ID_CHANNEL);
-    const user = await client.users.fetch(someKeys.get(key));
-    const member = await channel.guild.members.fetch(someKeys.get(key)).catch(() => { });
+    const user = await client.users.fetch(someKeys.get(key).userID);
+    const member = await channel.guild.members.fetch(someKeys.get(key).userID).catch(() => { });
+    if (someKeys.get(key).send_on && channel.rateLimitPerUser) {
+      const time = someKeys.get(key).send_on;
+      const dif = Date.now() - time.getTime();
+      const seconds = Math.floor(Math.abs(dif / 1000));
+      if(channel.rateLimitPerUser > seconds) return socket.emit("cooldown", seconds, channel.rateLimitPerUser);
+    }
+    someKeys.get(key).send_on = new Date();
     let content = pre_content;
     if (validInvs(content)) {
       content = `**${user.username}** invalid link.`
@@ -81,19 +88,21 @@ io.on('connection', socket => {
     webhook.send(content, {
       username: member ? member.displayName : user.username,
       avatarURL: user.displayAvatarURL({ format: "png" })
+    }).then(() => {
+      socket.emit("cooldown", null, channel.rateLimitPerUser)
     })
   })
 
   socket.on('join', async function (key) {
     if (!someKeys.has(key)) return;
     const channel = await client.channels.fetch(process.env.ID_CHANNEL_LOG);
-    const user = await client.users.fetch(someKeys.get(key));
+    const user = await client.users.fetch(someKeys.get(key).userID);
     webhook.send(`**Join:** ${user.username}#${user.discriminator} (${user.id})`, {
       username: "MyChat",
       avatarURL: 'https://i.imgur.com/TVaNWMn.png'
     });
 
-    socket.userId = someKeys.get(key);
+    socket.userId = someKeys.get(key).userID;
     socket.key = key;
     channel.send({
       embed: {
@@ -119,7 +128,6 @@ io.on('connection', socket => {
         color: 0xe52b50
       }
     });
-    someKeys.delete(socket.key);
   })
 });
 

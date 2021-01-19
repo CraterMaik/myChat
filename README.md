@@ -20,7 +20,9 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 > URL="http://localhost:3030" # Esta URL deberá ser configurada en https://discord.dev, ponerlo sin rutas adicionales 
 > ID_CHANNEL_LOG="" # El ID del canal de Discord en donde se envian registros (logs) de la web.
 > ID_CHANNEL="" # El ID del canal de Discord en donde se enviarán y recibirán mensajes. # Adicional: El webhook los envia a el canal donde se estableció.
-> DISCORD_TOKEN="" # Token del bot de Discord donde MyChat iniciará sesión
+> DISCORD_TOKEN="" # Token del bot de Discord donde MyChat iniciará sesión.
+> BLACKLIST="" # Las IDs aquí no pueden usar MyChat. Ponerlo en formato "1234,5678" (cada coma separa una ID);
+> GUILDONLY="" # Poner "true" para aceptar únicamente miembros del servidor donde se encuentra el canal que usted puso.
 > ```
 
 **2- Ejecutar MyChat**

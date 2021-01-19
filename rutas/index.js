@@ -3,18 +3,25 @@ const router = express.Router();
 const passport = require('passport');
 const CheckAuth = require('../auth');
 const { processFrontEndMessage } = require("../renderMessage.js");
-
+const blacklist = process.env.BLACKLIST.split(",");
 router.get('/', CheckAuth, async function (req, res) {
   try {
+    if(blacklist.includes(req.user.id)) return res.status(403).send("Usted no está autorizado a usar myChat.");
     const user = await req.client.users.fetch(req.user.id);
     const avatarURL = user.displayAvatarURL({ format: "png", dynamic: true, size: 1024 });
     const channel = await req.client.channels.fetch(process.env.ID_CHANNEL).catch(() => { });
     if (!channel) return res.status(500).send("Canal inválido.<br>Por favor corriga ID_CHANNEL con la ID del canal correcta.");
+    if(process.env.GUILDONLY) {
+      const member = await channel.guild.members.fetch(req.user.id).catch(() => {});
+      if(!member) return res.status(403).send("No eres parte de " + channel.guild.name + "<br>No estás autorizado a usar myChat.");
+    }
     const pre_messages = await channel.messages.fetch();
     const lastMessage = JSON.stringify({ author: pre_messages.filter(e => Boolean(e.content || e.attachments.first())).first().author.username, id: pre_messages.filter(e => Boolean(e.content || e.attachments.first())).first().id });
     const messages = pre_messages.filter(e => Boolean(e.content || e.attachments.first())).map(processFrontEndMessage.bind(null, req.client)).reverse();
-    const key = req.csrfToken();
-    someKeys.set(key, req.user.id);
+    const pre_key = [...someKeys.entries()].find(e => e[1].userID === user.id);
+    const new_key = req.csrfToken();
+    if(!pre_key) someKeys.set(new_key, { userID: req.user.id, send_on: null });
+    const key = pre_key ? pre_key[0] : new_key;
     res.render("index.ejs", {
       user: req.user,
       avatarURL,
