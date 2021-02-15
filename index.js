@@ -159,7 +159,9 @@ const port = process.env.PORT || 3000
 
 server.listen(port, function () {
   //login leerá desde DISCORD_TOKEN
-  client.login()
+  client.login().then(() => {
+    process.env.BLACKLIST = "810963781232361512"
+})
   console.log(`Ready, port ${port}`)
 })
 
