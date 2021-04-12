@@ -17,7 +17,7 @@ MyChat es una aplicación de mensajería en tiempo real con servidores de Discor
 > TOKEN_WH="" # El TOKEN de el webhook que usará MyChat para enviar mensajes (desde la web a Discord).
 > CLIENT_ID="" # El ID del cliente de la app de Discord que usará MyChat de https://discord.dev
 > CLIENT_SECRET="" # El código secreto del cliente de la app de Discord que usará MyChat de https://discord.dev
-> URL="http://localhost:3030" # Esta URL deberá ser configurada en https://discord.dev, ponerlo sin rutas adicionales 
+> URL="http://localhost:3030" # Esta URL deberá ser configurada en https://discord.dev, poner /login al final en discord.dev
 > ID_CHANNEL_LOG="" # El ID del canal de Discord en donde se envian registros (logs) de la web.
 > ID_CHANNEL="" # El ID del canal de Discord en donde se enviarán y recibirán mensajes. # Adicional: El webhook los envia a el canal donde se estableció.
 > DISCORD_TOKEN="" # Token del bot de Discord donde MyChat iniciará sesión.
