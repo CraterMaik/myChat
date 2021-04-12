@@ -62,12 +62,6 @@ img:hover {
     padding-left: 2px;
 }
 
-.rowMain .rowIcons .iconsContent .body-iconsContent:hover img,
-.rowMain .rowIcons .iconsContent .body-iconsContent:hover .no-icon {
-    border-radius: 20% !important;
-    transition: 0.4s;
-}
-
 .select-iconContent {
     width: 4px;
     height: 45px;
@@ -90,6 +84,16 @@ img:hover {
 
 .img-select-iconContent {
     border-radius: 25% !important;
+}
+
+.rowMain .rowIcons .iconsContent .body-iconsContent img,
+.rowMain .rowIcons .iconsContent .body-iconsContent .no-icon {
+    transition: 0.4s;
+}
+
+.rowMain .rowIcons .iconsContent .body-iconsContent img:hover,
+.rowMain .rowIcons .iconsContent .body-iconsContent .no-icon:hover {
+    border-radius: 20% !important;
 }
 
 .rowMain .rowIcons .iconsContent .body-iconsContent img,
