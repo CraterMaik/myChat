@@ -89,7 +89,7 @@ io.on('connection', (socket) => {
         const user = await client.users.fetch(someKeys.get(key).userID);
         const member = await channel.guild.members
             .fetch(someKeys.get(key).userID)
-            .catch(() => {});
+            .catch(() => { });
         if (someKeys.get(key).send_on && channel.rateLimitPerUser) {
             const time = someKeys.get(key).send_on;
             const dif = Date.now() - time.getTime();
@@ -108,7 +108,7 @@ io.on('connection', (socket) => {
         }
         webhook
             .send(content, {
-                username: member ? member.displayName : user.username,
+                username: (member ? member.displayName : user.username).replace(/clyde/gi, 'Clide'),
                 avatarURL: user.displayAvatarURL({ format: 'png' }),
             })
             .then(() => {
@@ -139,7 +139,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', async function () {
-        const user = await client.users.fetch(socket.userId).catch(() => {});
+        const user = await client.users.fetch(socket.userId).catch(() => { });
         if (!user) return;
         const channel = await client.channels.fetch(process.env.ID_CHANNEL_LOG);
         webhook.send(
@@ -171,18 +171,9 @@ client.on('typingStart', async (channel, user) => {
     if (user.bot) return;
 
     io.emit('typingStart', {
-        channel: {
-            id: channel.id,
-        },
         user: {
             id: user.id,
-            tag: `${user.username}#${user.discriminator}`,
             username: user.username,
-            avatarURL: user.displayAvatarURL({
-                format: 'png',
-                dynamic: true,
-                size: 1024,
-            }),
         },
     });
 });

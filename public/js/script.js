@@ -20,6 +20,26 @@ $(function () {
             .querySelector('meta[name="first-last-message"]')
             .getAttribute('content')
     );
+    Map.prototype.onChange = function () { }
+    Map.prototype.add = function (key, value) {
+        this.set(key, value);
+        this.onChange();
+    }
+    Map.prototype.remove = function (key, value) {
+        this.delete(key);
+        this.onChange();
+    }
+    let typing = new Map();
+    typing.onChange = function () {
+        const users = Array.from(typing.values());
+        if (users.length > 1)
+            users.splice(-1, 0, 'y');
+        typingArea.text(
+            users.length > 0
+                ? `${users.join(', ')} está${users.length > 1 ? 'n' : ''} escribiendo...`
+                : ''
+        );
+    }
 
     const socket = io();
 
@@ -53,35 +73,14 @@ $(function () {
         });
     }
 
-    function getTypingIndicatorIndex(text = '') {
-        return text.indexOf('está') !== -1
-            ? text.indexOf('está')
-            : text.indexOf('están') !== -1
-            ? text.indexOf('están')
-            : 0;
-    }
-
     socket.on('typingStart', (data) => {
-        const currentText = typingArea.text();
-        const typingIndicatorIndex = getTypingIndicatorIndex(currentText);
-        typingArea.text(
-            currentText.length > 1
-                ? currentText.replace(
-                      /está(?:n?)/gm,
-                      `, ${data.user.username} están`
-                  ) /* ([currentText.slice(typingIndicatorIndex, typingIndicatorIndex-2), `, ${data.user.username}`, currentText.slice(typingIndicatorIndex-2)].join('')) */
-                : `${data.user.username} está escribiendo...`
-        );
-
-        setTimeout(
-            () =>
-                typingArea.text(
-                    currentText.replace(`${data.user.username}`, ' ')
-                ),
-            4000
-        );
+        if (typing.has(data.user.id)) return;
+        typing.add(data.user.id, data.user.username);
+        setTimeout(() => typing.remove(data.user.id), 6000);
     });
+
     socket.on('new message', (data) => {
+        typing.remove(data.id);
         msgTemplate(data);
         emoji_animated();
 
@@ -164,9 +163,8 @@ $(function () {
             `<img src="${data.avatarURL}" alt="${data.username}-avatar" class="circle">`
         );
         $divUserTwo = md.render(data.content);
-        $divUser = $(`<span class="title" style="color: ${data.userColor}">${
-            data.username
-        }</span>
+        $divUser = $(`<span class="title" style="color: ${data.userColor}">${data.username
+            }</span>
                 ${md.render(data.content)}`);
 
         if (lastMessage.id === data.id && lastMessage.author === data.author) {
@@ -187,14 +185,11 @@ $(function () {
     function msgTemplate(data) {
         if (data.attachmentURL) {
             $divUser = $(
-                `<span class="title" style="color: ${data.colorName}">${
-                    data.author
-                } <span class="datep">${data.date}</span></span><p>${
-                    data.content
-                }<${
-                    data.attachmentURL.endsWith('.mp4')
-                        ? 'video controls'
-                        : 'img'
+                `<span class="title" style="color: ${data.colorName}">${data.author
+                } <span class="datep">${data.date}</span></span><p>${data.content
+                }<${data.attachmentURL.endsWith('.mp4')
+                    ? 'video controls'
+                    : 'img'
                 } class="img-content" src=${data.attachmentURL} /></p>`
             );
             $divUserTwo = $(
