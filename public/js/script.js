@@ -1,4 +1,7 @@
 $(function () {
+    $('#boxChat').animate({
+        scrollTop: $('#boxChat').scrollTop()
+    });
     window.addEventListener('pageshow', function (event) {
         const historyTraversal =
             event.persisted ||
