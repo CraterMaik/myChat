@@ -656,17 +656,31 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
     display: none;
     z-index: 5;
     background-color: #000000d2;
+    animation: vanish 350ms 1;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
 }
 
-.rowMain .rowModalImage .body-modal {
-    margin: 3% 15% 5% 15%;
+.rowMain .rowModalImage img {
+    max-width: 80vh;
+    max-height: 60vh;
+    height: auto;
+    width: auto;
 }
 
-.rowMain .rowModalImage .body-modal p {
-    cursor: pointer;
-    font-weight: 600;
-    color: #039be5;
-    text-decoration-line: initial;
+.rowMain .rowModalImage #openOriginal {
+    text-decoration: underline;
+    color: #ccc;
+}
+
+@keyframes vanish {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @media only screen and (max-width: 870px) {
@@ -676,10 +690,6 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
 
     .content-body-areatextContent .img-invite {
         width: 350px;
-    }
-
-    .rowMain .rowModalImage .body-modal {
-        margin: 9% 0% 25%;
     }
 }
 
@@ -714,10 +724,6 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
         .header-iconsContent:hover
         .modal-iconContent {
         display: none;
-    }
-
-    .rowMain .rowModalImage .body-modal {
-        margin: 9% 0% 25%;
     }
 }
 

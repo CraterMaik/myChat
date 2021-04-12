@@ -2,6 +2,21 @@ $(function () {
     $('#boxChat').animate({
         scrollTop: $('#boxChat').scrollTop()
     });
+    const popup = document.getElementById('openedImage');
+    const modal = document.getElementById('modal');
+    const openOriginal = document.getElementById('openOriginal');
+    modal.onclick = function (e) {
+        if (e.target !== popup) modal.style.display = 'none';
+    }
+    document.querySelectorAll('img.img-content').forEach((img) => {
+        img.onclick = function () {
+            popup.src = img.src;
+            popup.onload = function () {
+                modal.style.display = 'flex';
+                openOriginal.href = img.src;
+            }
+        }
+    });
     window.addEventListener('pageshow', function (event) {
         const historyTraversal =
             event.persisted ||

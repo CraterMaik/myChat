@@ -22,12 +22,13 @@
                   <a href="#">
                     <div class="select-iconContent"></div>
                     <% if (channel.guild.icon) { %>
-                      <img src="<%= channel.guild.iconURL({ dynamic: true, format: "png" }) %>" alt="<%= channel.guild.name %>">
+                      <img src="<%= channel.guild.iconURL({ dynamic: true, format: " png" }) %>" alt="<%=
+                        channel.guild.name %>">
                         <% } else { %>
                           <div class="no-icon">
                             <%= channel.guild.name.charAt(0).toUpperCase() %>
                           </div>
-                        <% } %>
+                          <% } %>
                   </a>
                 </div>
               </div>
@@ -55,12 +56,12 @@
                     </div>
                     <% } else { %>
                       <br>
-                    <% } %>
-                    <div class="channels-body-optionsContent">
-                      <div class="nameChannel-body-optionsContent info">
-                        # <%=channel.name%>
-                      </div>
-                    </div>
+                      <% } %>
+                        <div class="channels-body-optionsContent">
+                          <div class="nameChannel-body-optionsContent info">
+                            # <%=channel.name%>
+                          </div>
+                        </div>
 
                 </div>
                 <div class="profile-body-optionContent">
@@ -89,13 +90,13 @@
                 <div class="header-areatextContent">
                   <div class="areatextChannelInfo">
                     <span id="areatextTitle"><img src="https://cdn.discordapp.com/emojis/770766735178989569.png"
-                      alt="channel ico" width="23" style="opacity: 0.7; margin: 0 10px 0 0;">
+                        alt="channel ico" width="23" style="opacity: 0.7; margin: 0 10px 0 0;">
                       <%=channel.name%>
                     </span>
                     <span class="areatextTitleDesc">
                       <% if(channel.topic) { %>
                         <%= channel.topic %>
-                      <% } %>
+                          <% } %>
                     </span>
                   </div>
                   <span class="areatextTitleIcon">
@@ -114,7 +115,7 @@
                     <ul class="collection messages" id="boxChat">
                       <% messages.forEach((message)=> { %>
                         <%- include("partials/message.ejs", { message }) %>
-                      <% }) %>
+                          <% }) %>
                     </ul>
                   </section>
                 </div>
@@ -127,23 +128,21 @@
                 placeholder="Enviar mensaje a #<%=channel.name%>" required>
 
               <div class="typingArea"></div>
-              <div id="cooldownArea" class="cooldownArea"><%= channel.rateLimitPerUser ? "El modo lento está activado" : "" %></div>
+              <div id="cooldownArea" class="cooldownArea">
+                <%= channel.rateLimitPerUser ? "El modo lento está activado" : "" %>
+              </div>
             </div>
           </div>
-          <div class="rowModalImage">
-            <div class="body-modal">
-              <div>
-                <img src="" alt="" width="1000" height="600">
-              </div>
-
-              <div class="right">
-                <p>cerrar</p>
+          <div class="rowModalImage" id="modal">
+            <div class="body">
+              <img alt="Image" id="openedImage">
+              <div class="openOriginal">
+                <a id="openOriginal" href="" target="_blank" rel="noopener noreferrer">Abrir original</a>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
     </div>
-<%- include("partials/footer.ejs") %>
+    <%- include("partials/footer.ejs") %>
