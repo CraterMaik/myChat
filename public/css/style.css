@@ -98,7 +98,9 @@ img:hover {
     border-radius: 50%;
 }
 
-.rowMain .rowIcons .iconsContent .body-iconsContent:hover .no-icon {
+.rowMain .rowIcons .iconsContent .body-iconsContent .no-icon {
+    border-radius: 50%;
+    width: 46px;
     height: 46px;
     display: flex;
     color: #fff;
