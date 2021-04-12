@@ -1,4 +1,5 @@
 body {
+    overflow: hidden;
     color: white;
     background-color: #36393e;
 }
@@ -311,13 +312,22 @@ img:hover {
     height: 48px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
-    position: fixed;
     top: -0.5px;
     width: 100%;
     background-color: #36393e;
     z-index: 2;
     padding: 0 18px;
+    justify-content: space-between;
 }
+
+.rowMain
+    .rowAreatext
+    .areatextContent
+    .header-areatextContent
+    .areatextChannelInfo {
+    display: flex;
+}
+
 .rowMain .rowAreatext .areatextContent .header-areatextContent #areatextTitle {
     display: flex;
 }
@@ -337,7 +347,6 @@ img:hover {
     .areatextContent
     .header-areatextContent
     .areatextTitleIcon {
-    margin-left: 30vh;
     letter-spacing: 10px;
 }
 .rowMain
@@ -353,7 +362,6 @@ img:hover {
 }
 
 .rowMain .rowAreatext .areatextContent .body-areatextContent {
-    margin-top: 80px;
     margin-left: 12px;
 }
 

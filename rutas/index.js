@@ -43,10 +43,10 @@ router
             const lastMessage = JSON.stringify({
                 author: pre_messages
                     .filter((e) => Boolean(e.content || e.attachments.first()))
-                    .first().author.username,
+                    .first()?.author.username,
                 id: pre_messages
                     .filter((e) => Boolean(e.content || e.attachments.first()))
-                    .first().id,
+                    .first()?.id,
             });
             const messages = pre_messages
                 .filter((e) => Boolean(e.content || e.attachments.first()))
@@ -98,4 +98,5 @@ router
             );
         } else res.redirect('/');
     });
+
 module.exports = router;

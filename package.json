@@ -4,7 +4,8 @@
     "description": "MyChat es una aplicación de mensajería en tiempo real con servidores de Discord (similar a un canal de Discord).",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "pretty": "prettier -w ."
     },
     "engines": {
         "node": ">=12.x",

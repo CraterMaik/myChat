@@ -87,15 +87,17 @@
             <div class="col rowAreatext" style="width: 100%;">
               <div class="areatextContent">
                 <div class="header-areatextContent">
-                  <span id="areatextTitle"><img src="https://cdn.discordapp.com/emojis/770766735178989569.png"
+                  <div class="areatextChannelInfo">
+                    <span id="areatextTitle"><img src="https://cdn.discordapp.com/emojis/770766735178989569.png"
                       alt="channel ico" width="23" style="opacity: 0.7; margin: 0 10px 0 0;">
-                    <%=channel.name%>
-                  </span>
-                  <span class="areatextTitleDesc">
-                    <% if(channel.topic) { %>
-                      <%= channel.topic %>
-                    <% } %>
-                  </span>
+                      <%=channel.name%>
+                    </span>
+                    <span class="areatextTitleDesc">
+                      <% if(channel.topic) { %>
+                        <%= channel.topic %>
+                      <% } %>
+                    </span>
+                  </div>
                   <span class="areatextTitleIcon">
                     <svg x="0" y="0" class="icon-22AiRD" aria-hidden="false" width="24" height="24" viewBox="0 0 24 24"
                       fill="none">
@@ -108,7 +110,7 @@
                   </span>
                 </div>
                 <div class="body-areatextContent">
-                  <section style="height: 76vh;">
+                  <section style="height: 80vh;">
                     <ul class="collection messages" id="boxChat">
                       <% messages.forEach((message)=> { %>
                         <%- include("partials/message.ejs", { message }) %>
