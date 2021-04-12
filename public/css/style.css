@@ -331,6 +331,7 @@ img:hover {
 .rowMain .rowAreatext .areatextContent .header-areatextContent #areatextTitle {
     display: flex;
 }
+
 .rowMain
     .rowAreatext
     .areatextContent
@@ -342,6 +343,7 @@ img:hover {
     font-size: 13px;
     color: #979a9d;
 }
+
 .rowMain
     .rowAreatext
     .areatextContent
@@ -349,6 +351,7 @@ img:hover {
     .areatextTitleIcon {
     letter-spacing: 10px;
 }
+
 .rowMain
     .rowAreatext
     .areatextContent
@@ -356,6 +359,7 @@ img:hover {
     .areatextTitleIcon:hover {
     cursor: pointer;
 }
+
 .rowMain .rowAreatext .areatextContent .body-areatextContent h5 {
     color: #ffffff;
     font-weight: 600;
@@ -683,7 +687,7 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
     }
 
     .rowMain .rowContentThree {
-        left: 75px;
+        left: 100px;
     }
 
     .rowMain .rowAreatext .areatextContent .header-areatextContent-portal {
@@ -714,5 +718,13 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
 @media only screen and (max-width: 420px) {
     .rowMain .rowIcons {
         display: none;
+    }
+
+    .rowMain .rowContentTwo {
+        margin-left: 0px;
+    }
+
+    .rowMain .rowContentThree {
+        left: 35px;
     }
 }
