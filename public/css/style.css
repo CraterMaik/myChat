@@ -374,12 +374,38 @@ img:hover {
     cursor: pointer;
 }
 
+.rowMain .rowAreatext .areatextContent .bodyAreatextContent {
+    position: relative;
+}
+
+.rowMain .rowAreatext .areatextContent .bodyAreatextContent div {
+    position: absolute;
+    top: 0;
+}
+
+.rowMain .rowAreatext .areatextContent .bodyAreatextContent .newMessagesBanner {
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.rowMain .rowAreatext .areatextContent .bodyAreatextContent #newMessages {
+    display: none;
+    padding-left: 14px;
+    margin: 0;
+    background-color: #7289da;
+    border-radius: 0 0 8px 8px;
+    width: 95%;
+}
+
 .rowMain .rowAreatext .areatextContent .body-areatextContent h5 {
     color: #ffffff;
     font-weight: 600;
 }
 
 .rowMain .rowAreatext .areatextContent .body-areatextContent {
+    width: 98%;
     margin-left: 12px;
 }
 

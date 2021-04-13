@@ -16,6 +16,12 @@ function extractContent(html) {
     }
 }
 
+function parseDate(date) {
+    if (date.toLocaleDateString('es-ES') === new Date().toLocaleDateString('es-ES'))
+        return `Hoy a las ${date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+    return date.toLocaleDateString('es-ES');
+}
+
 function processFrontEndMessage(client, message) {
     const dataMDiscord = toHTML(message.content, {
         discordCallback: {
@@ -75,7 +81,7 @@ function processFrontEndMessage(client, message) {
         }),
         id: message.author.id,
         messageID: message.id,
-        date: message.createdAt.toLocaleDateString('es-ES'),
+        date: parseDate(message.createdAt),
         colorName: message.member ? message.member.displayHexColor : '#FFFFFF',
         attachmentURL:
             message.attachments.first() &&

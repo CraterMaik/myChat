@@ -106,14 +106,19 @@
                   <img src="https://cdn.discordapp.com/emojis/658538493470965787.png" alt="pin ico" width="23">
                 </span>
               </div>
-              <div class="body-areatextContent">
-                <section style="height: 80vh;">
-                  <ul class="collection messages" id="boxChat">
-                    <% messages.forEach((message)=> { %>
-                    <%- include("partials/message.ejs", { message }) %>
-                    <% }) %>
-                  </ul>
-                </section>
+              <div class="bodyAreatextContent">
+                <div class="newMessagesBanner">
+                  <p id="newMessages">2 mensajes nuevos</p>
+                </div>
+                <div class="body-areatextContent">
+                  <section style="height: 80vh;">
+                    <ul class="collection messages" id="boxChat">
+                      <% messages.forEach((message)=> { %>
+                      <%- include("partials/message.ejs", { message }) %>
+                      <% }) %>
+                    </ul>
+                  </section>
+                </div>
               </div>
             </div>
           </div>
