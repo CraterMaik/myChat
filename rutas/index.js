@@ -60,6 +60,7 @@ router
                 someKeys.set(new_key, { userID: req.user.id, send_on: null });
             const key = pre_key ? pre_key[0] : new_key;
             res.render('index.ejs', {
+                guild: channel.guild.id,
                 user: req.user,
                 avatarURL,
                 channel,

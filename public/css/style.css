@@ -234,16 +234,23 @@ img:hover {
     background-color: #292b2f;
     width: 100%;
 }
-.rowMain .rowOptions .profile-body-optionContent .profile-content {
+
+.rowMain .rowOptions .profile-body-optionContent .profile-content,
+.rowMain .rowOptions .profile-body-optionContent .profile-content .profile-tag {
     display: flex;
 }
+
+.rowMain .rowOptions .profile-body-optionContent .profile-content .profile-tag {
+    margin-left: 10px;
+    flex-direction: column;
+}
+
 .rowMain
     .rowOptions
     .profile-body-optionContent
     .profile-content
     .profile-username-footer {
     font-weight: 600;
-    margin-left: 10px;
     line-height: 1.1;
     margin-top: 4px;
 }
@@ -252,7 +259,7 @@ img:hover {
     .profile-body-optionContent
     .profile-content
     .profile-discrim-footer {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 400;
     color: #b0b2b5;
 }

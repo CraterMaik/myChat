@@ -19,7 +19,7 @@
                 </div>
                 <div class="separador-iconsContent"></div>
                 <div class="body-iconsContent">
-                  <a href="#">
+                  <a>
                     <div class="select-iconContent"></div>
                     <% if (channel.guild.icon) { %>
                       <img src="<%= channel.guild.iconURL({ dynamic: true, format: " png" }) %>" alt="<%=
@@ -69,10 +69,12 @@
                     <img src="<%= avatarURL %>" alt="Avatar <%=user.username%>" width="39" height="39"
                       class="circle img-url">
 
-                    <span class="profile-username-footer">
-                      <%=user.username%>
-                    </span>
-                    <!-- <span class="profile-discrim-footer">#<%=user.discriminator%></span> -->
+                    <div class="profile-tag">
+                      <span class="profile-username-footer">
+                        <%=user.username%>
+                      </span>
+                      <span class="profile-discrim-footer">#<%=user.discriminator%></span>
+                    </div>
                     <span class="profile-footer-icons">
                       <i class="material-icons">mic</i>
                       <i class="material-icons">headset</i>
