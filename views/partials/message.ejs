@@ -1,8 +1,10 @@
 <li id="<%= message.messageID %>" class="collection-item avatar" style>
     <img src="<%= message.avatarURL %>" alt="<%= message.author %>-avatar" class="circle"><span class="title" style="color: <%= message.colorName %>"><%= message.author %> <span class="datep"><%= message.date %></span></span>
     <% if(message.attachmentURL) { %>
-        <p><%- message.content %><<%= message.attachmentURL.endsWith('.mp4') ? 'video controls' : 'img' %> class="img-content" src="<%= message.attachmentURL %>"/></p>
+    <p><%- message.content %>
+        <<%= message.attachmentURL.endsWith('.mp4') ? 'video controls' : 'img' %> class="img-content" src="<%= message.attachmentURL %>" />
+    </p>
     <% } else { %>
-        <p><%- message.content %></p>
+    <p><%- message.content %></p>
     <% } %>
 </li>
