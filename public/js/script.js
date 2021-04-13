@@ -53,8 +53,12 @@ $(function () {
             if (this._counter === 0)
                 document.getElementById('newMessages').style.display = 'none';
             else {
-                    $('#newMessages').text(`${this._counter} mensaje${this._counter > 1 ? 's' : ''} nuevo${this._counter > 1 ? 's' : ''}.`);
-                    document.getElementById('newMessages').style.display = 'block';
+                $('#newMessages').text(
+                    `${this._counter} mensaje${
+                        this._counter > 1 ? 's' : ''
+                    } nuevo${this._counter > 1 ? 's' : ''}.`
+                );
+                document.getElementById('newMessages').style.display = 'block';
             }
         },
         set new(value) {
@@ -63,8 +67,8 @@ $(function () {
         },
         get new() {
             return this._counter;
-        }
-    }
+        },
+    };
 
     const socket = io();
 
@@ -74,10 +78,13 @@ $(function () {
     $messages[0].scrollTop = $messages[0].scrollHeight;
 
     $('#boxChat').on('scroll', function () {
-        if (parseInt($('#boxChat').scrollTop()) === parseInt($('#boxChat')[0].scrollHeight - $('#boxChat').height()))
+        if (
+            parseInt($('#boxChat').scrollTop()) ===
+            parseInt($('#boxChat')[0].scrollHeight - $('#boxChat').height())
+        )
             messages.new = 0;
     });
-    
+
     socket.emit('join', key);
     let md = window.markdownit().use(window.markdownitEmoji);
     md.renderer.rules.emoji = function (token, idx) {
@@ -154,7 +161,7 @@ $(function () {
 
     function addMessageElement(el, options) {
         var $el = $(el);
-        
+
         if (!options) {
             options = {};
         }
@@ -167,7 +174,7 @@ $(function () {
         if (typeof options.scroll === 'undefined') {
             options.scroll = true;
         }
-        
+
         if (options.fade) {
             $el.hide().fadeIn(120);
         }
@@ -176,7 +183,7 @@ $(function () {
         } else {
             $messages.append($el);
         }
-        
+
         document.querySelectorAll('img.img-content').forEach((img) => {
             img.onclick = function () {
                 popup.src = img.src;
@@ -186,9 +193,8 @@ $(function () {
                 };
             };
         });
-        
-        if (options.scroll)
-            $messages[0].scrollTop = $messages[0].scrollHeight;
+
+        if (options.scroll) $messages[0].scrollTop = $messages[0].scrollHeight;
         else messages.new++;
     }
     function addMessage() {

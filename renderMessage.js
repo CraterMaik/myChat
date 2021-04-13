@@ -17,8 +17,14 @@ function extractContent(html) {
 }
 
 function parseDate(date) {
-    if (date.toLocaleDateString('es-ES') === new Date().toLocaleDateString('es-ES'))
-        return `Hoy a las ${date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+    if (
+        date.toLocaleDateString('es-ES') ===
+        new Date().toLocaleDateString('es-ES')
+    )
+        return `Hoy a las ${date.toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+        })}`;
     return date.toLocaleDateString('es-ES');
 }
 
