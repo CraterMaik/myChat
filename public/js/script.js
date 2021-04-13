@@ -4,15 +4,15 @@ $(function () {
     const openOriginal = document.getElementById('openOriginal');
     modal.onclick = function (e) {
         if (e.target !== popup) modal.style.display = 'none';
-    }
+    };
     document.querySelectorAll('img.img-content').forEach((img) => {
         img.onclick = function () {
             popup.src = img.src;
             popup.onload = function () {
                 modal.style.display = 'flex';
                 openOriginal.href = img.src;
-            }
-        }
+            };
+        };
     });
     window.addEventListener('pageshow', function (event) {
         const historyTraversal =
@@ -35,26 +35,27 @@ $(function () {
             .querySelector('meta[name="first-last-message"]')
             .getAttribute('content')
     );
-    Map.prototype.onChange = function () { }
+    Map.prototype.onChange = function () {};
     Map.prototype.add = function (key, value) {
         this.set(key, value);
         this.onChange();
-    }
+    };
     Map.prototype.remove = function (key, value) {
         this.delete(key);
         this.onChange();
-    }
+    };
     let typing = new Map();
     typing.onChange = function () {
         const users = Array.from(typing.values());
-        if (users.length > 1)
-            users.splice(-1, 0, 'y');
+        if (users.length > 1) users.splice(-1, 0, 'y');
         typingArea.text(
             users.length > 0
-                ? `${users.join(', ')} está${users.length > 1 ? 'n' : ''} escribiendo...`
+                ? `${users.join(', ')} está${
+                      users.length > 1 ? 'n' : ''
+                  } escribiendo...`
                 : ''
         );
-    }
+    };
 
     const socket = io();
 
@@ -100,8 +101,7 @@ $(function () {
         msgTemplate(data);
         emoji_animated();
 
-        if (!extractContent(data.content))
-            emoji_only();
+        if (!extractContent(data.content)) emoji_only();
     });
 
     socket.on('add message', function (data) {
@@ -163,8 +163,7 @@ $(function () {
             $messages.append($el);
         }
 
-        if (options.scroll)
-            $messages[0].scrollTop = $messages[0].scrollHeight;
+        if (options.scroll) $messages[0].scrollTop = $messages[0].scrollHeight;
     }
     function addMessage() {
         let addMgs = $inputMessage.val();
@@ -182,8 +181,9 @@ $(function () {
             `<img src="${data.avatarURL}" alt="${data.username}-avatar" class="circle">`
         );
         $divUserTwo = md.render(data.content);
-        $divUser = $(`<span class="title" style="color: ${data.userColor}">${data.username
-            }</span>
+        $divUser = $(`<span class="title" style="color: ${data.userColor}">${
+            data.username
+        }</span>
                 ${md.render(data.content)}`);
 
         if (lastMessage.id === data.id && lastMessage.author === data.author) {
@@ -204,11 +204,14 @@ $(function () {
     function msgTemplate(data) {
         if (data.attachmentURL) {
             $divUser = $(
-                `<span class="title" style="color: ${data.colorName}">${data.author
-                } <span class="datep">${data.date}</span></span><p>${data.content
-                }<${data.attachmentURL.endsWith('.mp4')
-                    ? 'video controls'
-                    : 'img'
+                `<span class="title" style="color: ${data.colorName}">${
+                    data.author
+                } <span class="datep">${data.date}</span></span><p>${
+                    data.content
+                }<${
+                    data.attachmentURL.endsWith('.mp4')
+                        ? 'video controls'
+                        : 'img'
                 } class="img-content" src=${data.attachmentURL} /></p>`
             );
             $divUserTwo = $(
@@ -237,7 +240,11 @@ $(function () {
         }
 
         addMessageElement($messageDiv, {
-            scroll: parseInt($('#boxChat').scrollTop()) === parseInt($('#boxChat')[0].scrollHeight - $('#boxChat').height())
+            scroll:
+                parseInt($('#boxChat').scrollTop()) ===
+                parseInt(
+                    $('#boxChat')[0].scrollHeight - $('#boxChat').height()
+                ),
         });
     }
 
@@ -245,7 +252,6 @@ $(function () {
         if (!(event.ctrlKey || event.metaKey || event.altKey))
             $inputMessage.focus();
 
-        if (event.which === 13)
-            addMessage();
+        if (event.which === 13) addMessage();
     });
 });
