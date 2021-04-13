@@ -3,6 +3,7 @@ body {
     color: white;
     background-color: #36393e;
 }
+
 img:hover {
     cursor: pointer;
 }

@@ -1,7 +1,4 @@
 $(function () {
-    $('#boxChat').animate({
-        scrollTop: $('#boxChat').scrollTop()
-    });
     const popup = document.getElementById('openedImage');
     const modal = document.getElementById('modal');
     const openOriginal = document.getElementById('openOriginal');
@@ -64,6 +61,7 @@ $(function () {
     $inputMessage = $('.inputMSG');
     $inputMessage.focus();
     $messages = $('.messages');
+    $messages[0].scrollTop = $messages[0].scrollHeight;
 
     socket.emit('join', key);
     let md = window.markdownit().use(window.markdownitEmoji);
@@ -102,9 +100,8 @@ $(function () {
         msgTemplate(data);
         emoji_animated();
 
-        if (!extractContent(data.content)) {
+        if (!extractContent(data.content))
             emoji_only();
-        }
     });
 
     socket.on('add message', function (data) {
@@ -153,6 +150,9 @@ $(function () {
         if (typeof options.prepend === 'undefined') {
             options.prepend = false;
         }
+        if (typeof options.scroll === 'undefined') {
+            options.scroll = true;
+        }
 
         if (options.fade) {
             $el.hide().fadeIn(120);
@@ -163,7 +163,8 @@ $(function () {
             $messages.append($el);
         }
 
-        $messages[0].scrollTop = $messages[0].scrollHeight;
+        if (options.scroll)
+            $messages[0].scrollTop = $messages[0].scrollHeight;
     }
     function addMessage() {
         let addMgs = $inputMessage.val();
@@ -235,15 +236,16 @@ $(function () {
             ).append($imgAvatar, $divUser);
         }
 
-        addMessageElement($messageDiv);
+        addMessageElement($messageDiv, {
+            scroll: parseInt($('#boxChat').scrollTop()) === parseInt($('#boxChat')[0].scrollHeight - $('#boxChat').height())
+        });
     }
 
     $window.keydown(function (event) {
-        if (!(event.ctrlKey || event.metaKey || event.altKey)) {
+        if (!(event.ctrlKey || event.metaKey || event.altKey))
             $inputMessage.focus();
-        }
-        if (event.which === 13) {
+
+        if (event.which === 13)
             addMessage();
-        }
     });
 });
