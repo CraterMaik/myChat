@@ -168,10 +168,9 @@ img:hover {
     height: 48px;
     padding: 0 12px 0 5px;
     transition: background-color 0.15s ease;
-
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
-    padding: 0 20px;
+    padding: 0 15px;
 }
 .rowMain .i-arrow-server {
     font-size: 22px;
@@ -706,6 +705,16 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
 .rowMain .rowModalImage #openOriginal {
     text-decoration: underline;
     color: #ccc;
+}
+
+/* server badges */
+.server-badge {
+    width: 13%;
+    padding-top: 5px;
+}
+
+.server-badge img {
+    width: 17px;
 }
 
 @keyframes vanish {
