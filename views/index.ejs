@@ -36,6 +36,17 @@
 
             <div class="optiontsContent">
               <div class="header-optionsContent">
+                <div class="server-badge">
+                      <% if (channel.guild.premiumTier === 3) { %>
+                        <img src="https://cdn.discordapp.com/emojis/842934076406104085.png" alt="lvl 3">
+                      <% } else if (channel.guild.premiumTier === 2) { %>
+                        <img src="https://cdn.discordapp.com/emojis/842934030482800640.png" alt="lvl 2">
+                      <% } else if (channel.guild.premiumTier === 1) { %>
+                        <img src="https://cdn.discordapp.com/emojis/842934010148683826.png" alt="lvl 1">
+                      <% } else { %>
+                        
+                      <% } %>
+                </div> 
                 <span class="title_server">
                   <%=channel.guild.name%>
                 </span>
