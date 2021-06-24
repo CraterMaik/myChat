@@ -26,7 +26,7 @@ router
                     .send(
                         'Canal inválido.<br>Por favor corriga ID_CHANNEL con la ID del canal correcta.'
                     );
-            if (process.env.GUILDONLY === 'true') {
+            //if (process.env.GUILDONLY === 'true') { / no funca los Config Vars de heroku pero es process.env.GUILDONLY=true :D
                 const member = await channel.guild.members
                     .fetch(req.user.id)
                     .catch(() => {});
@@ -38,7 +38,7 @@ router
                                 channel.guild.name +
                                 '<br>No estás autorizado a usar myChat.'
                         );
-            }
+            //}
             const pre_messages = await channel.messages.fetch();
             const lastMessage = JSON.stringify({
                 author: pre_messages
