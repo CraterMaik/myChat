@@ -6,22 +6,37 @@ const passport = require('passport');
 const { Strategy } = require('passport-discord');
 
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const { Server } = require('socket.io');
+const io = new Server(server);
 
 const session = require('express-session');
-const csurf = require('csurf');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const csrf = require('csrf');
+const tokens = new csrf();
 global.someKeys = new Map();
 
 const path = require('path');
-const Discord = require('discord.js');
-const client = new Discord.Client({ allowedMentions: { parse: [] } });
-const { processFrontEndMessage, validInvs } = require('./renderMessage.js');
+const { Client, GatewayIntentBits, WebhookClient } = require('discord.js');
 
-const webhook = new Discord.WebhookClient(
-    process.env.ID_WH,
-    process.env.TOKEN_WH,
-    { allowedMentions: { parse: [] } }
-);
+// Initialize Discord client with required intents
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers
+    ],
+    allowedMentions: { parse: [] }
+});
+
+const { processFrontEndMessage, validInvs, parseDate } = require('./renderMessage.js');
+
+// Updated webhook initialization
+const webhook = new WebhookClient({
+    id: process.env.ID_WH,
+    token: process.env.TOKEN_WH
+});
 
 passport.serializeUser((user, done) => {
     done(null, user);
@@ -49,28 +64,61 @@ passport.use(
     )
 );
 
+// Rate limiting middleware
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 app.use(express.json())
     .use(express.urlencoded({ extended: true }))
     .engine('html', require('ejs').renderFile)
     .use(express.static(path.join(__dirname, '/public')))
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
+    // Security enhancements
+    .use(helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: ["'self'", "'unsafe-inline'", "code.jquery.com", "cdnjs.cloudflare.com"],
+                styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdnjs.cloudflare.com"],
+                fontSrc: ["'self'", "fonts.gstatic.com"],
+                imgSrc: ["'self'", "data:", "cdn.discordapp.com", "i.imgur.com", "*.discordapp.net"],
+                connectSrc: ["'self'", "ws://localhost:*", "wss://*"]
+            }
+        }
+    }))
     .use(
         session({
-            secret: 'name',
+            secret: process.env.SESSION_SECRET || 'mychat_secret',
             resave: false,
             saveUninitialized: false,
+            cookie: {
+                secure: process.env.NODE_ENV === 'production',
+                httpOnly: true,
+                maxAge: 24 * 60 * 60 * 1000 // 24 hours
+            }
         })
     )
+    .use((req, res, next) => {
+        if (!req.session.csrfSecret) {
+            req.session.csrfSecret = tokens.secretSync();
+        }
+        req.csrfToken = function() {
+            return tokens.create(req.session.csrfSecret);
+        };
+        next();
+    })
     .use(passport.initialize())
     .use(passport.session())
-    .use(csurf({ cookie: false }))
+    .use(apiLimiter) // Apply rate limiting to all routes
     .use(function (req, res, next) {
         req.client = client;
         next();
     })
     .use('/', require('./rutas/index'))
-
     .get('*', function (req, res) {
         res.status(404).sendFile(__dirname + '/views/404.html');
     })
@@ -85,98 +133,130 @@ client.on('ready', async () => {
 io.on('connection', (socket) => {
     socket.on('add message', async function (key, pre_content) {
         if (!someKeys.has(key)) return;
-        const channel = await client.channels.fetch(process.env.ID_CHANNEL);
-        const user = await client.users.fetch(someKeys.get(key).userID);
-        const member = await channel.guild.members
-            .fetch(someKeys.get(key).userID)
-            .catch(() => {});
-        if (someKeys.get(key).send_on && channel.rateLimitPerUser) {
-            const time = someKeys.get(key).send_on;
-            const dif = Date.now() - time.getTime();
-            const seconds = Math.floor(Math.abs(dif / 1000));
-            if (channel.rateLimitPerUser > seconds)
-                return socket.emit(
-                    'cooldown',
-                    seconds,
-                    channel.rateLimitPerUser
-                );
-        }
-        someKeys.get(key).send_on = new Date();
-        let content = pre_content;
-        if (validInvs(content)) {
-            content = `**${user.username}** invalid link.`;
-        }
-        webhook
-            .send(content, {
+        try {
+            const channel = await client.channels.fetch(process.env.ID_CHANNEL);
+            const user = await client.users.fetch(someKeys.get(key).userID);
+            const member = await channel.guild.members
+                .fetch(someKeys.get(key).userID)
+                .catch(() => {});
+                
+            if (someKeys.get(key).send_on && channel.rateLimitPerUser) {
+                const time = someKeys.get(key).send_on;
+                const dif = Date.now() - time.getTime();
+                const seconds = Math.floor(Math.abs(dif / 1000));
+                if (channel.rateLimitPerUser > seconds)
+                    return socket.emit(
+                        'cooldown',
+                        seconds,
+                        channel.rateLimitPerUser
+                    );
+            }
+            someKeys.get(key).send_on = new Date();
+            let content = pre_content;
+            if (validInvs(content)) {
+                content = `**${user.username}** enlace inválido.`;
+            }
+            
+            const webhookMessage = await webhook.send({
+                content: content,
                 username: (member ? member.displayName : user.username).replace(
                     /clyde/gi,
                     'Clide'
                 ),
                 avatarURL: user.displayAvatarURL({ format: 'png' }),
-            })
-            .then(() => {
-                socket.emit('cooldown', null, channel.rateLimitPerUser);
+                wait: true
             });
+
+            const messageData = {
+                content: content,
+                author: member ? member.displayName : user.username,
+                avatarURL: user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }),
+                id: user.id,
+                messageID: webhookMessage.id,
+                date: parseDate(new Date()),
+                colorName: member ? member.displayHexColor : '#FFFFFF',
+                attachmentURL: null
+            };
+            
+            // Emitir nuevo mensaje al socket
+            socket.emit('new message', messageData);
+            
+            // Emitirlo para todos
+            socket.broadcast.emit('new message', messageData);
+            
+            socket.emit('cooldown', null, channel.rateLimitPerUser);
+        } catch (error) {
+            console.error('Error sending message:', error);
+            socket.emit('error', 'Failed to send message');
+        }
     });
 
     socket.on('join', async function (key) {
         if (!someKeys.has(key)) return;
-        const channel = await client.channels.fetch(process.env.ID_CHANNEL_LOG);
-        const user = await client.users.fetch(someKeys.get(key).userID);
-        webhook.send(
-            `**Join:** ${user.username}#${user.discriminator} (${user.id})`,
-            {
-                username: 'MyChat',
+        try {
+            const channel = await client.channels.fetch(process.env.ID_CHANNEL_LOG);
+            const user = await client.users.fetch(someKeys.get(key).userID);
+            
+            await webhook.send({
+                content: `**Inicio:** ${user.username} (${user.id})`,
+                username: 'MyChat v2',
                 avatarURL: 'https://i.imgur.com/TVaNWMn.png',
-            }
-        );
+            });
 
-        socket.userId = someKeys.get(key).userID;
-        socket.key = key;
-        channel.send({
-            embed: {
-                title: `Join: ${user.username}#${user.discriminator} (${user.id})`,
-                color: 0x8db600,
-            },
-        });
+            socket.userId = someKeys.get(key).userID;
+            socket.key = key;
+            
+            await channel.send({
+                embeds: [{
+                    title: `Inicio: ${user.username} (${user.id})`,
+                    color: 0x8db600,
+                }]
+            });
+        } catch (error) {
+            console.error('Error processing join:', error);
+        }
     });
 
     socket.on('disconnect', async function () {
-        const user = await client.users.fetch(socket.userId).catch(() => {});
-        if (!user) return;
-        const channel = await client.channels.fetch(process.env.ID_CHANNEL_LOG);
-        webhook.send(
-            `**Leave:** ${user.username}#${user.discriminator} (${user.id})`,
-            {
-                username: 'MyChat',
+        try {
+            const user = await client.users.fetch(socket.userId).catch(() => {});
+            if (!user) return;
+            
+            const channel = await client.channels.fetch(process.env.ID_CHANNEL_LOG);
+            
+            await webhook.send({
+                content: `**Desconectado:** ${user.username} (${user.id})`,
+                username: 'MyChat v2',
                 avatarURL: 'https://i.imgur.com/TVaNWMn.png',
-            }
-        );
+            });
 
-        channel.send({
-            embed: {
-                title: `Leave: ${user.username}#${user.discriminator} (${user.id})`,
-                color: 0xe52b50,
-            },
-        });
+            await channel.send({
+                embeds: [{
+                    title: `Desconectado: ${user.username} (${user.id})`,
+                    color: 0xe52b50,
+                }]
+            });
+        } catch (error) {
+            console.error('Error processing disconnect:', error);
+        }
     });
 });
 
-client.on('message', async (message) => {
-    if (!message.content && !message.attachments.first()) return;
+client.on('messageCreate', async (message) => {
+    if (!message.content && !message.attachments.size) return;
     if (message.channel.id !== process.env.ID_CHANNEL) return;
     const dataMSG = processFrontEndMessage(client, message);
     io.emit('new message', dataMSG);
 });
 
-client.on('typingStart', async (channel, user) => {
-    if (channel.id !== process.env.ID_CHANNEL) return;
-    if (user.bot) return;
+client.on('typingStart', async (typing) => {
+    if (typing.channel.id !== process.env.ID_CHANNEL) return;
+    if (typing.user.bot) return;
 
     io.emit('typingStart', {
         user: {
-            id: user.id,
-            username: user.username,
+            id: typing.user.id,
+            username: typing.user.username,
         },
     });
 });
@@ -184,21 +264,19 @@ client.on('typingStart', async (channel, user) => {
 const port = process.env.PORT || 3000;
 
 server.listen(port, function () {
-    //login leerá desde DISCORD_TOKEN
-    client.login().then(() => {
-        process.env.BLACKLIST = '810963781232361512';
+    client.login(process.env.DISCORD_TOKEN).then(() => {
+        console.log('Bot logged in successfully');
+    }).catch(error => {
+        console.error('Failed to login:', error);
     });
-    console.log(`Ready, port ${port}`);
+    console.log(`Server running on port ${port}`);
 });
 
-process.on('unhandledRejection', (r) => {
-    console.dir(r);
+// Error handling
+process.on('unhandledRejection', (error) => {
+    console.error('Unhandled promise rejection:', error);
 });
 
-process.on('uncaughtException', (e) => {
-    // Siempre se debe cerrar cuando hay una excepción sin capturar
-    // https://nodejs.org/dist/latest-v12.x/docs/api/process.html#process_warning_using_uncaughtexception_correctly
-    console.dir(e);
-    client.destroy();
-    process.exit(1);
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught exception:', error);
 });

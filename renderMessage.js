@@ -101,4 +101,5 @@ module.exports = {
     validInvs,
     extractContent,
     processFrontEndMessage,
+    parseDate
 };

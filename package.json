@@ -1,35 +1,40 @@
 {
     "name": "mychat",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "MyChat es una aplicación de mensajería en tiempo real con servidores de Discord (similar a un canal de Discord).",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
+        "dev": "nodemon index.js",
         "pretty": "prettier -w ."
     },
     "engines": {
-        "node": "14.x",
+        "node": ">=16.x",
         "npm": "*"
     },
     "keywords": [],
     "author": "CraterMaik",
     "license": "MIT",
     "dependencies": {
-        "csurf": "^1.11.0",
-        "discord-markdown": "^2.4.1",
-        "discord.js": "^12.5.0",
-        "dotenv": "^8.2.0",
-        "ejs": "^3.1.5",
-        "erlpack": "^0.1.3",
-        "express": "^4.17.1",
-        "express-session": "^1.17.1",
-        "markdown-to-text-emoji": "^1.1.0",
-        "node-emoji": "^1.10.0",
-        "passport": "^0.4.1",
+        "connect-mongo": "^5.0.0",
+        "csrf": "^3.1.0",
+        "discord-markdown": "^2.5.1",
+        "discord.js": "^14.13.0",
+        "dotenv": "^16.3.1",
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.1.0",
+        "express-session": "^1.17.3",
+        "helmet": "^7.0.0",
+        "markdown-it": "^13.0.1",
+        "markdown-it-emoji": "^2.0.2",
+        "node-emoji": "^2.1.0",
+        "passport": "^0.6.0",
         "passport-discord": "^0.1.4",
-        "socket.io": "^3.0.3"
+        "socket.io": "^4.7.2"
     },
     "devDependencies": {
-        "prettier": "^2.2.1"
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.3"
     }
 }

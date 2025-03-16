@@ -1,7 +1,8 @@
 body {
     overflow: hidden;
     color: white;
-    background-color: #36393e;
+    background-color: #36393f;
+    font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 img:hover {
@@ -33,11 +34,18 @@ img:hover {
     overflow: hidden;
     width: 70px;
     position: relative;
+    transition: width 0.2s ease-in-out;
 }
 
 .rowMain .rowIcons .iconsContent .header-iconsContent img {
     width: 46px;
     margin-left: 2px;
+    transition: all 0.2s ease;
+    filter: brightness(1.05);
+}
+
+.rowMain .rowIcons .iconsContent .header-iconsContent img:hover {
+    filter: brightness(1.2);
 }
 
 .rowMain .rowIcons .iconsContent .header-iconsContent p {
@@ -258,8 +266,8 @@ img:hover {
     .rowOptions
     .profile-body-optionContent
     .profile-content
-    .profile-discrim-footer {
-    font-size: 11px;
+    .profile-id-footer {
+    font-size: 10px;
     font-weight: 400;
     color: #b0b2b5;
 }
