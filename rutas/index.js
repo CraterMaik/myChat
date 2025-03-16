@@ -95,9 +95,7 @@ router
         if (req.user) {
             req.logout(function(err) {
                 if (err) { return next(err); }
-                res.status(202).send(
-                    "Sesión cerrada.<br>Gracias por usar MyChat!<br><a href='/'>Click</a> para volver a entrar"
-                );
+                res.status(202).render('logout.ejs');
             });
         } else res.redirect('/');
     });

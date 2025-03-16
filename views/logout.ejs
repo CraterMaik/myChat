@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión Cerrada - myChat v2</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            background-color: #36393f;
+            color: #fff;
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .logout-container {
+            background-color: #2f3136;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logout-header {
+            margin-bottom: 2rem;
+        }
+
+        .logout-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .logout-message {
+            font-size: 1.1rem;
+            color: #b9bbbe;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .discord-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .btn-login {
+            background-color: #5865F2;
+            color: #fff;
+            border-radius: 4px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-login:hover {
+            background-color: #4752C4;
+        }
+
+        .material-icons {
+            vertical-align: middle;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logout-container">
+        <div class="logout-header">
+            <img src="./../public/images/logos/Discord.webp" alt="Discord Logo" class="discord-logo">
+            <h1 class="logout-title">¡Hasta pronto!</h1>
+        </div>
+        <div class="logout-message">
+            <p>Sesión cerrada correctamente.<br>Gracias por usar myChat.</p>
+        </div>
+        <a href="/" class="btn-login waves-effect waves-light">
+            <i class="material-icons left">login</i>Volver a entrar
+        </a>
+    </div>
+
+</body>
+
+</html>
