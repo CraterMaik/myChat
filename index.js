@@ -30,7 +30,7 @@ const client = new Client({
     allowedMentions: { parse: [] }
 });
 
-const { processFrontEndMessage, validInvs, parseDate } = require('./renderMessage.js');
+const { processFrontEndMessage, validInvs, parseDate, isValidEmoji } = require('./renderMessage.js');
 
 // Updated webhook initialization
 const webhook = new WebhookClient({
@@ -152,7 +152,14 @@ io.on('connection', (socket) => {
                     );
             }
             someKeys.get(key).send_on = new Date();
+            
+            // Permitir símbolos :o :) etc
             let content = pre_content;
+            const emojiPattern = /:([\w+-]+):/g;
+            content = content.replace(emojiPattern, (match) => {
+                return isValidEmoji(match) ? match : match.replace(':', '&#58;');
+            });
+            
             if (validInvs(content)) {
                 content = `**${user.username}** enlace inválido.`;
             }
