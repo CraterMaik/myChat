@@ -1,6 +1,11 @@
 const { toHTML } = require('discord-markdown');
 const emoji = require('node-emoji');
 
+function isValidEmoji(text) {
+    const invalidEmojiPatterns = [':o', ':O', ':(', ':)', ':p', ':P', ':d', ':D', ':v', ':V', ':/'];
+    return !invalidEmojiPatterns.includes(text);
+}
+
 function validInvs(txt) {
     const regex = /((http|https)?:\/\/)?(www\.)?((discord|invite|dis)\.(gg|io|li|me|gd)|(discordapp|discord)\.com\/invite)\/[aA-zZ|0-9]{2,25}/gim;
     const invs = txt.match(regex);
@@ -61,15 +66,25 @@ function processFrontEndMessage(client, message) {
         escapeHTML: true,
     });
 
-    let emojiFind = emoji.replace(
-        dataMDiscord,
-        (emoji) => `<i class="twa twa-3x twa-${emoji.key}"></i>`
-    );
+    // Implementando un reemplazo más seguro para emojis
+    let emojiFind = dataMDiscord.replace(/:([\w+-]+):/g, (match, emojiName) => {
+        if (!isValidEmoji(match)) return match;
+        
+        const foundEmoji = emoji.get(emojiName);
+        return foundEmoji !== `:${emojiName}:` 
+            ? `<i class="twa twa-3x twa-${emojiName}"></i>` 
+            : match;
+    });
+    
     if (extractContent(emojiFind)) {
-        emojiFind = emoji.replace(
-            dataMDiscord,
-            (emoji) => `<i class="twa twa-1x twa-${emoji.key}"></i>`
-        );
+        emojiFind = emojiFind.replace(/:([\w+-]+):/g, (match, emojiName) => {
+            if (!isValidEmoji(match)) return match;
+            
+            const foundEmoji = emoji.get(emojiName);
+            return foundEmoji !== `:${emojiName}:` 
+                ? `<i class="twa twa-1x twa-${emojiName}"></i>` 
+                : match;
+        });
     }
 
     if (validInvs(emojiFind))
@@ -101,5 +116,6 @@ module.exports = {
     validInvs,
     extractContent,
     processFrontEndMessage,
-    parseDate
+    parseDate,
+    isValidEmoji
 };

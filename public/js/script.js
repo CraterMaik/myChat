@@ -77,6 +77,76 @@ $(function () {
     $messages = $('.messages');
     $messages[0].scrollTop = $messages[0].scrollHeight;
 
+    // Probar con algunos emojis básicos
+    const commonEmojis = [
+        '😊', '😂', '❤️', '👍', '😍', '🔥', '🎉', '👀', '✨', 
+        '😅', '🙏', '👋', '🥰', '😎', '🤔', '😘', '😭', '🤣', 
+        '😳', '🥺', '🙄', '😑', '🤩', '🙂', '😀', '🤗', '👏', 
+        '🫡', '🤝', '😁', '🔴', '🟢', '🟦'
+    ];
+
+    const $chatArea = $('.chatArea-body');
+    const $emojiButton = $('<button>', {
+        class: 'emoji-button',
+        html: '<span>😊</span>',
+        title: 'Insertar emoji'
+    });
+    $chatArea.append($emojiButton);
+    
+    // Crear el panel de emojis
+    const $emojiPanel = $('<div>', {
+        class: 'emoji-panel',
+        css: { display: 'none' }
+    });
+    $chatArea.append($emojiPanel);
+    
+    commonEmojis.forEach(emoji => {
+        const $emoji = $('<span>', {
+            class: 'emoji-item',
+            text: emoji
+        });
+        $emoji.on('click', function() {
+            const curPos = $inputMessage[0].selectionStart;
+            const text = $inputMessage.val();
+            const newText = text.slice(0, curPos) + emoji + text.slice(curPos);
+            $inputMessage.val(newText);
+            $inputMessage[0].setSelectionRange(curPos + emoji.length, curPos + emoji.length);
+            $inputMessage.focus();
+        });
+        $emojiPanel.append($emoji);
+    });
+
+    // Cambiar emoji al pasar el cursor como discord:p
+    let emojiChangeTimeout;
+    $emojiButton.on('mouseenter', function() {
+        clearTimeout(emojiChangeTimeout);
+        emojiChangeTimeout = setTimeout(() => {
+            const randomEmoji = commonEmojis[Math.floor(Math.random() * commonEmojis.length)];
+            $(this).html(`<span>${randomEmoji}</span>`);
+        }, 3500);
+    });
+
+    $emojiButton.on('mouseleave', function() {
+        clearTimeout(emojiChangeTimeout);
+    });
+
+    $emojiButton.on('click', function(e) {
+        e.preventDefault();
+        $emojiPanel.toggle();
+        $(document).one('click', function(e) {
+            if (!$(e.target).closest('.emoji-panel, .emoji-button').length) {
+                $emojiPanel.hide();
+            }
+        });
+        return false;
+    });
+
+    $inputMessage.on('keydown', function(event) {
+        if (event.which === 13) {
+            $emojiPanel.hide();
+        }
+    });
+
     $('#boxChat').on('scroll', function () {
         if (
             parseInt($('#boxChat').scrollTop()) ===
